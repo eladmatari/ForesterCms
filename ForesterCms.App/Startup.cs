@@ -1,3 +1,4 @@
+using Common.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,12 @@ namespace ForesterCms.App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            if (Config.Environment == EnvironmentType.Local)
+                services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNewtonsoftJson();
+            else
+                services.AddControllersWithViews().AddNewtonsoftJson();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
 
