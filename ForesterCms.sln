@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForesterCms.App", "Forester
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0217EBA7-1E2C-48F1-8DF1-72EAE70CBCFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Utils", "Common\Common.Utils\Common.Utils.csproj", "{94495980-4BB9-4FC3-A443-EAB4B7CE6D1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Utils", "Common\Common.Utils\Common.Utils.csproj", "{94495980-4BB9-4FC3-A443-EAB4B7CE6D1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Utils.Standard", "Common\Common.Utils.Standard\Common.Utils.Standard.csproj", "{F3FF2194-C699-4BA7-80D4-1F0E447186DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{94495980-4BB9-4FC3-A443-EAB4B7CE6D1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94495980-4BB9-4FC3-A443-EAB4B7CE6D1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94495980-4BB9-4FC3-A443-EAB4B7CE6D1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3FF2194-C699-4BA7-80D4-1F0E447186DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3FF2194-C699-4BA7-80D4-1F0E447186DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3FF2194-C699-4BA7-80D4-1F0E447186DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3FF2194-C699-4BA7-80D4-1F0E447186DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{94495980-4BB9-4FC3-A443-EAB4B7CE6D1F} = {0217EBA7-1E2C-48F1-8DF1-72EAE70CBCFF}
+		{F3FF2194-C699-4BA7-80D4-1F0E447186DD} = {0217EBA7-1E2C-48F1-8DF1-72EAE70CBCFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B526409D-49AE-4F44-B186-ED85A87B0833}
