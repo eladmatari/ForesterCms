@@ -1,7 +1,7 @@
 ﻿using Common.Utils.Standard;
 using System;
 
-namespace Common.Utils
+namespace Common.Utils.Standard
 {
     public class Config
     {
@@ -22,5 +22,8 @@ namespace Common.Utils
         public static IAppLogger Logger { get; private set; }
         public static Func<string, string> GetAppSettings { get; private set; }
         public static EnvironmentType Environment { get; private set; }
+        public static string MailServer { get { return GetAppSettings("MailServer"); } }
+
+        public static bool IsProxy { get { return GetAppSettings("IsProxy") == "1"; } }
     }
 }
