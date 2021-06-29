@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.ShadowCopy.Logic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,10 +20,12 @@ namespace Common.ShadowCopy.Service
 
         protected override void OnStart(string[] args)
         {
+            SiteWatcher.Start();
         }
 
         protected override void OnStop()
         {
+            SiteWatcher.Stop();
         }
     }
 }
