@@ -8,7 +8,7 @@ namespace Common.Utils.Standard
 {
     public static class CryptHelper
     {
-        private const string _password = "10fa2984609246sdfsfsf3eb42c484d3289cbddd3e2b02fe4eab9f4331973cedbc83593e23a6ace9a728cdb42c9a0bf59375b65957dda412cf7bff143e3bf7c7cd67f47e79280f9ff962d7b4cd7865c5ca162b7a5490fc4b68bc49743dc9fd8d178ad5b0f5d0907b607908442f7bf4dcfa31702d51673f1a618f543467eaeb3454118a8abb413bc28d920d14a4b97d5026cc0e9ca1c";
+        private static string _password = Config.GetAppSettings("CryptHelper.Password");// "10fa2984609246sdfsfsf3eb42c484d3289cbddd3e2b02fe4eab9f4331973cedbc83593e23a6ace9a728cdb42c9a0bf59375b65957dda412cf7bff143e3bf7c7cd67f47e79280f9ff962d7b4cd7865c5ca162b7a5490fc4b68bc49743dc9fd8d178ad5b0f5d0907b607908442f7bf4dcfa31702d51673f1a618f543467eaeb3454118a8abb413bc28d920d14a4b97d5026cc0e9ca1c";
 
         public static string GetHash(string s)
         {
