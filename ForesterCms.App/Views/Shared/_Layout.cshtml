@@ -1,0 +1,48 @@
+﻿@*@using eGen.Pelephone.App.Infrastructure.Helpers;
+@using eGen.Pelephone.App.Infrastructure.Objects.General;*@
+@{
+    //var pageModel = Router.Data.PageModel as SitePageModel;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @*@await Html.PartialAsync("~/Views/eGen/_Meta.cshtml")*@
+    @*@Html.BundleCss("libs",
+        "libs/owl.carousel.css",
+        "libs/swiper.css",
+        "fonts.css",
+        //"accessible.scss",
+        "general.scss",
+        "main.scss"
+    )
+    @Html.BundleModulesCss()
+    @Html.BundleScripts("libs",
+        "libs/jquery-3.4.1.js",
+        "libs/jquery-ui-1.12.1.min.js",
+        "libs/jquery.cookie.js",
+        "libs/polyfill.js",
+        "libs/axios.min.js",
+        "general_master.js",
+        "accessible-toolsbar.js",
+        "analytics.js",
+        "libs/vue.js",
+        "libs/swiper.js",
+        "libs/OwlCarousel2-2.2.0/owl.carousel.js",
+        "common.js",
+        "app.js"
+    )*@
+    @*@if (pageModel.FavIcon != null)
+    {
+        <link rel="icon" type="image/x-icon" href="@pageModel.FavIcon" />
+    }
+    @Html.Raw(pageModel.GetHeadHtml())*@
+</head>
+@*<body class="@pageModel?.BodyCssClass" rel="@Router.Data.ObjId" nsid="@Router.Data.NsId" boneid="@Router.Data.BoneId" sid="1">*@
+<body>
+    @RenderBody()
+    @*@await Html.PartialAsync("~/Views/General/_Accessibility.cshtml")*@
+    @*@Router.Data.PageModel.GetClientDataScript()
+    @Html.BundleModulesScripts()*@
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

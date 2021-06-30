@@ -14,7 +14,7 @@ namespace Common.Utils.Standard
 
     public sealed class SqlHelper
     {
-        private string ConnectionString { get; set; }// GlobalConfiguration.Applications("eGenMaster").Connections["Primary"].ConnectionString;
+        private string ConnectionString { get; set; }
 
         //*********************************************************************
         //

@@ -20,6 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.Utils.Standard\Common.Utils.Standard.csproj" />
     <ProjectReference Include="..\Common\Common.Utils\Common.Utils.csproj" />
+    <ProjectReference Include="..\ForesterCmsServices\ForesterCmsServices.UI\ForesterCmsServices.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\ForesterCms\Client\Styles\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

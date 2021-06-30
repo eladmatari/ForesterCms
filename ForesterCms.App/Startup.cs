@@ -44,10 +44,13 @@ namespace ForesterCms.App
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute("ForesterCms", "ForesterCms", "ForesterCms/{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapDynamicControllerRoute<Router>("{*url}");
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    await context.Response.WriteAsync("Hello World!");
+                //});
             });
         }
     }

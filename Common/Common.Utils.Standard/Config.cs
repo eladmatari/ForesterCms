@@ -5,7 +5,6 @@ namespace Common.Utils.Standard
 {
     public class Config
     {
-
         public static void Init(Func<string, string> getAppSettings, IAppLogger logger)
         {
             if (getAppSettings == null)
@@ -19,6 +18,7 @@ namespace Common.Utils.Standard
             Logger = logger;
         }
 
+        public static readonly DateTime CreateDate = DateTime.Now;
         public static IAppLogger Logger { get; private set; }
         public static Func<string, string> GetAppSettings { get; private set; }
         public static EnvironmentType Environment { get; private set; }

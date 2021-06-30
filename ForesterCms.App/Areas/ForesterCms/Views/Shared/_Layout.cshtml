@@ -1,0 +1,51 @@
+﻿@{
+    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="theme-color" content="#0177bd">
+    <title>Forester CMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @*@Html.BundleCss("libs",
+            "libs/swiper.css",
+            "fonts.css",
+            "general.scss",
+            "main.scss"
+        )
+        @Html.BundleModulesCss()
+        @Html.BundleScripts("libs",
+            "libs/jquery-3.4.1.js",
+            "libs/jquery-ui-1.12.1.min.js",
+            "libs/jquery.cookie.js",
+            "libs/polyfill.js",
+            "libs/axios.min.js",
+            "general_master.js",
+            "accessible-toolsbar.js",
+            "analytics.js",
+            "libs/vue.js",
+            "libs/swiper.js",
+            "libs/OwlCarousel2-2.2.0/owl.carousel.js",
+            "common.js",
+            "app.js"
+        )*@
+    @*@if (pageModel.FavIcon != null)
+        {
+            <link rel="icon" type="image/x-icon" href="@pageModel.FavIcon" />
+        }
+        @Html.Raw(pageModel.GetHeadHtml())*@
+</head>
+@*<body class="@pageModel?.BodyCssClass" rel="@Router.Data.ObjId" nsid="@Router.Data.NsId" boneid="@Router.Data.BoneId" sid="1">*@
+<body>
+    Layout2
+    @RenderBody()
+    @*@await Html.PartialAsync("~/Views/General/_Accessibility.cshtml")*@
+    @*@Router.Data.PageModel.GetClientDataScript()
+    @Html.BundleModulesScripts()*@
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
