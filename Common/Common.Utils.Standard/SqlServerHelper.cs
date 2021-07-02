@@ -12,7 +12,7 @@ namespace Common.Utils.Standard
     //
     //*********************************************************************
 
-    public sealed class SqlHelper
+    public sealed class SqlServerHelper
     {
         private string ConnectionString { get; set; }
 
@@ -23,7 +23,7 @@ namespace Common.Utils.Standard
         //
         //*********************************************************************
 
-        public SqlHelper(string connectionString)
+        public SqlServerHelper(string connectionString)
         {
             ConnectionString = connectionString;
         }

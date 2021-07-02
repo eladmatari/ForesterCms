@@ -246,17 +246,17 @@ namespace Common.Utils.Standard
             return "-" + s;
         }
 
-        public static DataSet ExecuteDataSetText(this SqlHelper db, string text)
+        public static DataSet ExecuteDataSetText(this SqlServerHelper db, string text)
         {
             return db.ExecuteDataset(CommandType.Text, text);
         }
 
-        public static void ExecuteNonQueryText(this SqlHelper db, string text)
+        public static void ExecuteNonQueryText(this SqlServerHelper db, string text)
         {
             db.ExecuteNonQuery(CommandType.Text, text);
         }
 
-        public static object ExecuteScalarText(this SqlHelper db, string text)
+        public static object ExecuteScalarText(this SqlServerHelper db, string text)
         {
             return db.ExecuteScalar(CommandType.Text, text);
         }

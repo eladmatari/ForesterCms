@@ -8,8 +8,8 @@ namespace Common.Utils.Standard
     public static class DBHelper
     {
         #region Members
-        private static SqlHelper m_Main = null;
-        private static SqlHelper m_Log = null;
+        private static MySqlDatabase m_Main = null;
+        private static MySqlDatabase m_Log = null;
         private static object m_SyncRoot = new object();
         #endregion
 
@@ -18,7 +18,7 @@ namespace Common.Utils.Standard
         /// <summary>
         /// The following routine creates and returns an instance of SQL Database
         /// </summary>
-        public static SqlHelper Database
+        public static MySqlDatabase Database
         {
             get
             {
@@ -31,7 +31,7 @@ namespace Common.Utils.Standard
                             // Get connection string
                             string connectionString = Config.GetAppSettings("Connection_Main");
 
-                            m_Main = new SqlHelper(connectionString);
+                            m_Main = new MySqlDatabase(connectionString);
                         }
                     }
                 }
@@ -40,7 +40,7 @@ namespace Common.Utils.Standard
             }
         }
 
-        public static SqlHelper LogDatabase
+        public static MySqlDatabase LogDatabase
         {
             get
             {
@@ -53,7 +53,7 @@ namespace Common.Utils.Standard
                             // Get connection string
                             string connectionString = Config.GetAppSettings("Connection_Log");
 
-                            m_Log = new SqlHelper(connectionString);
+                            m_Log = new MySqlDatabase(connectionString);
                         }
                     }
                 }
@@ -63,13 +63,5 @@ namespace Common.Utils.Standard
         }
 
         #endregion
-
-        public static string GetFullTextSearchTerm(string term, bool isOr = false)
-        {
-            string joinTerm = isOr ? " or " : " and ";
-
-            var termArr = term.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            return string.Join(joinTerm, termArr.Select(i => "\"" + i.Replace("\"", "&quot;") + "\""));
-        }
     }
 }

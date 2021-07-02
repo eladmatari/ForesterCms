@@ -18,16 +18,13 @@ namespace Common.Utils.Logging
     public class DbLogger : BaseProcess
     {
         public readonly static DbLogger Instance = new DbLogger();
-        private static Action<string, string, string> _sendSmsMethod;
+        public static Action<LogInfo, string> SendSmsMethod;
+        public static Action<LogInfo, string> SendEmailMethod;
+        public static Action<LogInfo> InsertLogMethod;
+        public static Func<List<SystemAlertTarget>> GetSystemAlertTargets;
         private const string REMOVED_FROM_LOG_MESSAGE = "unlogged";
         public static Func<string> TryGetPhoneMethod;
         public static readonly byte SourceId = (byte)RequestHelper.GetInt(Config.GetAppSettings("DbLogger.SourceId"));
-        public static readonly string LogProcedure = Config.GetAppSettings("DbLogger.Procedure") ?? "srv_GeneralLogs_Insert";
-
-        public static void Init(Action<string, string, string> sendSms)
-        {
-            _sendSmsMethod = sendSms;
-        }
 
         private DbLogger()
         {
@@ -68,25 +65,18 @@ namespace Common.Utils.Logging
                         }
                     }
 
-                    if (IsAppLog)
-                    {
-                        request = requestBody;
-                    }
-                    else
-                    {
-                        var referer = HttpContextHelper.Current.Request.GetTypedHeaders().Referer;
+                    var referer = HttpContextHelper.Current.Request.GetTypedHeaders().Referer;
 
-                        request = new
-                        {
-                            url,
-                            requestBody,
-                            Host = HttpContextHelper.Current.Request.Host.Host,
-                            Scheme = HttpContextHelper.Current.Request.Scheme,
-                            UrlReferer = referer != null ? referer.AbsoluteUri : null,
-                            UserAgent = HttpContextHelper.Current.Request.Headers["User-Agent"],
-                            ClientIP = HttpContextHelper.Current.Connection.RemoteIpAddress.ToString()
-                        };
-                    }
+                    request = new
+                    {
+                        url,
+                        requestBody,
+                        Host = HttpContextHelper.Current.Request.Host.Host,
+                        Scheme = HttpContextHelper.Current.Request.Scheme,
+                        UrlReferer = referer != null ? referer.AbsoluteUri : null,
+                        UserAgent = HttpContextHelper.Current.Request.Headers["User-Agent"],
+                        ClientIP = HttpContextHelper.Current.Connection.RemoteIpAddress.ToString()
+                    };
 
                     if (HttpContextHelper.Current.Response.Body.CanRead && HttpContextHelper.Current.Response.Body.CanSeek)
                     {
@@ -187,20 +177,14 @@ namespace Common.Utils.Logging
                 {
                     var targets = CacheHelper.GetOrAdd("SystemAlertTargets", () =>
                     {
-                        return GetSystemAlertTargets();
+                        return GetSystemAlertTargets?.Invoke().Where(i => i.IsActive).ToList();
                     }, 300, false);
 
-                    foreach (var logsAlert in logsAlerts)
+                    if (targets != null)
                     {
-                        foreach (var target in targets.Where(i => string.IsNullOrWhiteSpace(i.Type)))
+                        foreach (var logsAlert in logsAlerts)
                         {
-                            AlertSms(logsAlert, target);
-                            AlertEmail(logsAlert, target);
-                        }
-
-                        if (logsAlert.Request != null && logsAlert.Request.IndexOf("IT_IBM-WCE_EstablishIdentity", StringComparison.OrdinalIgnoreCase) > 0)
-                        {
-                            foreach (var target in targets.Where(i => i.Type == "ibm"))
+                            foreach (var target in targets.Where(i => string.IsNullOrWhiteSpace(i.Type)))
                             {
                                 AlertSms(logsAlert, target);
                                 AlertEmail(logsAlert, target);
@@ -227,9 +211,9 @@ namespace Common.Utils.Logging
                 if (string.IsNullOrWhiteSpace(log.PhoneNumber))
                 {
                     if (log.Url?.EndsWith("/api/auth/login", StringComparison.OrdinalIgnoreCase) == true)
-                        log.PhoneNumber = GetPhoneFromXml(log.Response);
+                        log.PhoneNumber = GetPhoneFromData(log.Response);
                     else
-                        log.PhoneNumber = GetPhoneFromXml(log.Request);
+                        log.PhoneNumber = GetPhoneFromData(log.Request);
                 }
 
                 if (!log.IsAlert)
@@ -260,36 +244,7 @@ namespace Common.Utils.Logging
 
             try
             {
-                string subject = string.Format("התקבלה שגיאה עבור {0} תאריך {1}", log.PhoneNumber, log.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                var htmlBody = new StringBuilder();
-
-                htmlBody.Append("<style>table, td { direction:ltr;text-align:left;vertical-align:top; }</style>");
-                htmlBody.Append("<table>");
-                htmlBody.AppendFormat("<tr><td>PhoneNumber:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", log.PhoneNumber);
-                htmlBody.AppendFormat("<tr><td>Exception:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", log.Exception);
-                htmlBody.AppendFormat("<tr><td>Request:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", System.Web.HttpUtility.HtmlEncode(log.Request));
-                htmlBody.AppendFormat("<tr><td>Response:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", System.Web.HttpUtility.HtmlEncode(log.Response));
-                htmlBody.AppendFormat("<tr><td>Server:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", log.Server);
-                htmlBody.AppendFormat("<tr><td>Method:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", log.Method);
-                htmlBody.AppendFormat("<tr><td>Service:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", log.Service);
-                htmlBody.AppendFormat("<tr><td>Step:</td><td style=\"padding-right: 10px;\">{0}</td></tr>", log.Step);
-                htmlBody.Append("</table>");
-
-                using (var smtp = new SmtpClient())
-                {
-                    smtp.Host = Config.MailServer;
-                    using (var mailMessage = new MailMessage())
-                    {
-                        mailMessage.Subject = subject;
-                        mailMessage.To.Add(target.Email);
-
-                        mailMessage.From = new MailAddress("postmaster@pelephone.co.il");
-                        mailMessage.IsBodyHtml = true;
-                        mailMessage.Body = htmlBody.ToString();
-
-                        smtp.Send(mailMessage);
-                    }
-                }
+                SendEmailMethod?.Invoke(log, target.Email);
             }
             catch (Exception ex)
             {
@@ -304,11 +259,7 @@ namespace Common.Utils.Logging
 
             try
             {
-                string message = string.Format("התקבלה שגיאה עבור {0}, תאריך {1}", log.Step, log.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                if (!string.IsNullOrWhiteSpace(log.PhoneNumber))
-                    message += string.Format(", מנוי {0}", log.PhoneNumber);
-
-                _sendSmsMethod?.Invoke("PeleErrors", target.Phone, message);
+                SendSmsMethod?.Invoke(log, target.Phone);
             }
             catch (Exception ex)
             {
@@ -316,7 +267,7 @@ namespace Common.Utils.Logging
             }
         }
 
-        private static string GetPhoneFromXml(string request)
+        private static string GetPhoneFromData(string request)
         {
             if (request != null)
             {
@@ -375,50 +326,9 @@ namespace Common.Utils.Logging
             return false;
         }
 
-        private static bool IsAppLog
-        {
-            get
-            {
-                return Config.GetAppSettings("Connection_DigitalLog") != null;
-            }
-        }
-
         private static void InsertGeneralLog(LogInfo log)
         {
-            // app logs
-            if (IsAppLog)
-            {
-                DBHelper.LogDatabase.ExecuteNonQuery(LogProcedure,
-                    log.StartDate,
-                    log.EndDate,
-                    RequestHelper.SecureSqlParameter(log.Exception) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Service) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Method) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Step) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Url) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Request) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Response) ?? "",
-                    RequestHelper.SecureSqlParameter(log.PhoneNumber) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Server) ?? "",
-                    RequestHelper.SecureSqlParameter(log.ClientIp) ?? "",
-                    RequestHelper.SecureSqlParameter(log.MoreInfo) ?? ""
-                );
-            }
-            else // site logs
-            {
-                DBHelper.Database.ExecuteNonQuery("site_GeneralLogs_Insert2",
-                    log.StartDate,
-                    RequestHelper.SecureSqlParameter(log.Exception) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Service) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Method) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Step) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Request) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Response) ?? "",
-                    RequestHelper.SecureSqlParameter(log.PhoneNumber) ?? "",
-                    RequestHelper.SecureSqlParameter(log.Server) ?? "",
-                    SourceId
-                );
-            }
+            InsertLogMethod.Invoke(log);
 
             log.IsInserted = true;
         }
@@ -436,29 +346,6 @@ namespace Common.Utils.Logging
                     Logger.Error(ex);
                 }
             }
-        }
-
-        private static List<SystemAlertTarget> GetSystemAlertTargets()
-        {
-            var ds = DBHelper.Database.ExecuteDataset("site_SystemAlertTargets_Get");
-
-            var items = new List<SystemAlertTarget>();
-
-            foreach (DataRow row in ds.Tables[0].Rows)
-            {
-                var resultItem = new SystemAlertTarget();
-
-                resultItem.Id = row.Field<int>("Id");
-                resultItem.Name = row.Field<string>("Name");
-                resultItem.Email = row.Field<string>("Email");
-                resultItem.Phone = row.Field<string>("Phone");
-                resultItem.IsActive = row.Field<bool>("IsActive");
-                resultItem.Type = row.Field<string>("Type");
-
-                items.Add(resultItem);
-            }
-
-            return items;
         }
 
         public override void Start()
