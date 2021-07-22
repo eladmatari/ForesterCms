@@ -80,7 +80,7 @@ namespace ForesterCms.App
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider svp)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime, IServiceProvider svp)
         {
             if (Config.Environment == EnvironmentType.Local)
             {
@@ -151,6 +151,45 @@ namespace ForesterCms.App
                     endpoints.MapFallbackToController("Error404", "General");
                 }
             });
+
+            Application_Start();
+            applicationLifetime.ApplicationStopping.Register(Application_End);
+        }
+
+        private void Application_Start()
+        {
+            Logger.Info("!-----------------------------------------------------");
+
+            ResourceGroupHelper.Scripts.StartWatch();
+            ResourceGroupHelper.Css.StartWatch();
+            DbLogger.Instance.Start();
+            //CacheRefresherProcess.Instance.Start();
+            //SearchLogsProcess.Instance.Start();
+            //LogsCacheRefresherProcess.Instance.Start();
+            //eGenServices.Logic.Extensions.OnLinkProcess = OnLinkProcess;
+
+            SetVirtualRoutes();
+        }
+
+        private void SetVirtualRoutes()
+        {
+            Router.AddRoute(new VirtualRoute($"product",
+                new VirtualRouteParam("Name")
+            ));
+
+            Router.AddRouteTranslate(new VirtualRouteTranslate($"other/product", $"product"));
+        }
+
+        private void Application_End()
+        {
+            ResourceGroupHelper.Scripts.StopWatch();
+            ResourceGroupHelper.Css.StopWatch();
+            DbLogger.Instance.Stop();
+            //CacheRefresherProcess.Instance.Stop();
+            //SearchLogsProcess.Instance.Stop();
+            //LogsCacheRefresherProcess.Instance.Stop();
+
+            Logger.Info("-----------------------------------------------------!");
         }
 
         private void AddMagickProcesses(ImageMagickMiddlewareOptions options)
