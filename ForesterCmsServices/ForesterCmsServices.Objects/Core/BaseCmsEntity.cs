@@ -30,6 +30,15 @@ namespace ForesterCmsServices.Objects.Core
         public DateTime CreateDate { set; get; }
         public int BranchId { get; set; }
         public int? Sort { get; set; }
+        public MetaObject Meta { get; set; }
+
+        public class MetaObject
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Keywords { get; set; }
+            public string Robots { get; set; }
+        }
     }
 
     public interface ICmsEntity

@@ -36,6 +36,8 @@ namespace ForesterCmsServices.UI.Models
         private List<string> _webpackScripts = new List<string>();
         private List<string> _webpackCss = new List<string>();
         public Dictionary<string, object> ClientData { get; private set; } = new Dictionary<string, object>();
+        public List<BranchObject> PageObjects { get; internal set; }
+
         public List<string> _htmlToHead = new List<string>();
 
         private void AddResources(string[] resourcePaths, List<string> targetList)

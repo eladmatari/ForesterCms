@@ -43,5 +43,13 @@ namespace ForesterCmsServices.Cache
                 return BranchesPropertiesCache.Instance;
             }
         }
+
+        public static LanguageResourcesCache LanguageResources
+        {
+            get
+            {
+                return LanguageResourcesCache.Instance;
+            }
+        }
     }
 }

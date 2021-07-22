@@ -2,17 +2,24 @@ using Common.Utils;
 using Common.Utils.Logging;
 using Common.Utils.Standard;
 using ForesterCmsServices.Objects;
+using ForesterCmsServices.UI.Base;
 using ForesterCmsServices.UI.General;
+using ForesterCmsServices.UI.ImageMagick;
+using ForesterCmsServices.UI.Resources;
 using ForesterCmsServices.UI.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -73,14 +80,62 @@ namespace ForesterCms.App
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider svp)
         {
-            if (env.IsDevelopment())
+            if (Config.Environment == EnvironmentType.Local)
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(new DeveloperExceptionPageOptions()
+                {
+                    SourceCodeLineCount = 10
+                });
+
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseResponseCompression();
+                app.UseHsts();
             }
 
+            DiHelper.Configure(svp);
+            HttpContextHelper.Configure(svp.GetRequiredService<IHttpContextAccessor>());
+
+            app.UseSession();
+            app.UseImageMagick((options) =>
+            {
+                AddMagickProcesses(options);
+            });
+
+            BaseMiddleware.OnError = Application_Error;
+            app.Use((context, next) =>
+            {
+                context.Request.EnableBuffering();
+                return next();
+            });
+            app.UseRewriter(new RewriteOptions().AddStaticRewrite());
+            app.UseMiddleware<BaseMiddleware>();
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings.Add(".scss", "text/x-sass");
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                ContentTypeProvider = provider
+            });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Config.GetAppSettings("eGen.UploadedFilesDirectory")),
+                RequestPath = "/uploadedimages"
+            });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Config.GetAppSettings("eGen.UploadedFilesDirectory"), "files")),
+                RequestPath = "/uploadedfiles"
+            });
+
+            app.UseCookiePolicy();
             app.UseRouting();
+
+            // For most apps, calls to UseAuthentication, UseAuthorization, and UseCors must appear between the calls to UseRouting and UseEndpoints to be effective.
 
             app.UseEndpoints(endpoints =>
             {
@@ -95,6 +150,28 @@ namespace ForesterCms.App
                 }
                 //endpoints.MapDynamicControllerRoute<Router>("{*url}");
             });
+        }
+
+        private void AddMagickProcesses(ImageMagickMiddlewareOptions options)
+        {
+            string uploadedImagesRequestPath = "/uploadedimages";
+            var uploadedImagesFilesProvider = new PhysicalFileProvider(Config.GetAppSettings("ForesterCms.UploadedFilesDirectory"));
+
+            options.AddProcess(new ImageMagickProcess()
+            {
+                Key = "type1",
+                Width = 253,
+                Height = 155,
+                Mode = ImageMagickMode.ResizeMax,
+                FileProvider = uploadedImagesFilesProvider,
+                RequestPath = uploadedImagesRequestPath
+            });
+        }
+
+        private void Application_Error(Exception ex)
+        {
+            Logger.Error(ex, "application");
+            DbLogger.AddLog(ex, "application", null, null, null, null, null);
         }
     }
 }

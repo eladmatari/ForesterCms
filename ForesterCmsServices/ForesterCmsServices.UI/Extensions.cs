@@ -1,4 +1,6 @@
 ﻿using Common.Utils.Standard;
+using ForesterCmsServices.Objects.Core;
+using ForesterCmsServices.UI.Models;
 using ForesterCmsServices.UI.Resources;
 using ForesterCmsServices.UI.Routing;
 using Microsoft.AspNetCore.Html;
@@ -206,5 +208,22 @@ namespace ForesterCmsServices.UI
         //{
         //    return await htmlHelper.PartialAsync("~/Views/Cms/_Imagelink.cshtml", imageLinkModel);
         //}
+
+        public static string GetValue(this BaseCmsEntity.MetaObject metaObj, MetaTemplate.TemplateType type)
+        {
+            switch (type)
+            {
+                case MetaTemplate.TemplateType.Title:
+                    return metaObj.Title;
+                case MetaTemplate.TemplateType.Keywords:
+                    return metaObj.Keywords;
+                case MetaTemplate.TemplateType.Description:
+                    return metaObj.Description;
+                case MetaTemplate.TemplateType.Robots:
+                    return metaObj.Robots;
+            }
+
+            return null;
+        }
     }
 }

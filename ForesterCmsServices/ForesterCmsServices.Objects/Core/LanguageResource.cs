@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ForesterCmsServices.Objects.Core
 {
-    public class CmsComponent : BaseCmsEntity
+    public class LanguageResource : BaseCmsEntity
     {
-        public string PlaceHolder { get; set; }
-        public int Display { get; set; }
+        public string Key { set; get; }
+        public string Text { get; set; }
+        public CmsImage Image { get; set; }
     }
 }
