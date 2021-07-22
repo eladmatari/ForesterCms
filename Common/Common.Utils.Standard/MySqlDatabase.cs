@@ -31,21 +31,24 @@ namespace Common.Utils.Standard
                 {
                     var schema = reader.GetSchemaTable();
 
+                    if (schema == null)
+                        return null;
+
                     var dt = new DataTable();
                     dt.TableName = "Table";
 
-                    foreach (DataColumn column in schema.Columns)
+                    foreach (DataRow row in schema.Rows)
                     {
-                        dt.Columns.Add(column.ColumnName, column.DataType);
+                        dt.Columns.Add((string)row["ColumnName"], (Type)row["DataType"]);
                     }
 
                     while (reader.Read())
                     {
                         var row = dt.NewRow();
 
-                        for (int i = 0; i < schema.Columns.Count; i++)
+                        for (int i = 0; i < dt.Columns.Count; i++)
                         {
-                            row[schema.Columns[i].ColumnName] = reader.GetValue(i);
+                            row[dt.Columns[i].ColumnName] = reader.GetValue(i);
                         }
 
                         dt.Rows.Add(row);

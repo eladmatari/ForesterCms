@@ -123,12 +123,12 @@ namespace ForesterCms.App
             });
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Config.GetAppSettings("eGen.UploadedFilesDirectory")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Config.GetAppSettings("ForesterCms.UploadedFilesDirectory"), "$Images")),
                 RequestPath = "/uploadedimages"
             });
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Config.GetAppSettings("eGen.UploadedFilesDirectory"), "files")),
+                FileProvider = new PhysicalFileProvider(Config.GetAppSettings("ForesterCms.UploadedFilesDirectory")),
                 RequestPath = "/uploadedfiles"
             });
 
@@ -139,19 +139,17 @@ namespace ForesterCms.App
 
             app.UseEndpoints(endpoints =>
             {
+                if (CmsConfig.IsCms)
+                {
+                    endpoints.MapAreaControllerRoute("ForesterCms", "ForesterCms", "ForesterCms/{controller=Home}/{action=Index}/{id?}");
+                }
+
                 if (CmsConfig.IsSite)
                 {
                     endpoints.MapDynamicControllerRoute<Router>("{*url}");
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapFallbackToController("Error404", "General");
                 }
-
-                if (CmsConfig.IsCms)
-                {
-                    endpoints.MapAreaControllerRoute("ForesterCms", "ForesterCms", "ForesterCms/{controller=Home}/{action=Index}/{id?}");
-                }
-
-                //endpoints.MapDynamicControllerRoute<Router>("{*url}");
             });
         }
 
