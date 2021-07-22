@@ -141,13 +141,16 @@ namespace ForesterCms.App
             {
                 if (CmsConfig.IsSite)
                 {
+                    endpoints.MapDynamicControllerRoute<Router>("{*url}");
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapFallbackToController("Error404", "General");
                 }
 
                 if (CmsConfig.IsCms)
                 {
                     endpoints.MapAreaControllerRoute("ForesterCms", "ForesterCms", "ForesterCms/{controller=Home}/{action=Index}/{id?}");
                 }
+
                 //endpoints.MapDynamicControllerRoute<Router>("{*url}");
             });
         }
