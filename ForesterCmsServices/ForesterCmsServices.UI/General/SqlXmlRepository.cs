@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.DataProtection.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,10 +40,8 @@ namespace ForesterCmsServices.UI.General
 
             string xml = CryptHelper.Encrypt(element.ToString(SaveOptions.DisableFormatting), nameof(SqlXmlRepository));
 
-
-
-            DBHelper.Database.ExecuteNonQuery(@"INSERT INTO cms_xml_repository (`key`, `xml`, `createdate`) VALUES('@friendlyName', '@xml', curdate()) 
-ON DUPLICATE KEY UPDATE xml = '@xml'", (cmd) =>
+            DBHelper.Database.ExecuteNonQuery(@"INSERT INTO cms_xml_repository (`key`, `xml`, `createdate`) VALUES(@friendlyName, @xml, curdate()) 
+ON DUPLICATE KEY UPDATE xml = @xml", (cmd) =>
             {
                 cmd.Parameters.AddWithValue("@friendlyName", friendlyName);
                 cmd.Parameters.AddWithValue("@xml", xml);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common.Utils.Logging;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace ForesterCms.App.Areas.ForesterCms.Controllers
     {
         public IActionResult Index()
         {
+            Logger.Info("Hello");
+
             return View();
         }
     }

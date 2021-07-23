@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="NLog.config" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +29,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\ForesterCms\Client\Styles\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\scripts\" />
+    <Folder Include="wwwroot\themes\" />
   </ItemGroup>
 
 </Project>
