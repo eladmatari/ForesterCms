@@ -1,5 +1,5 @@
 ﻿(function () {
 
-    console.log('elad');
+    console.log('elad2');
 
 })();

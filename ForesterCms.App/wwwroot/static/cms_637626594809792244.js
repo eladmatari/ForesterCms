@@ -1,6 +1,6 @@
 ﻿/*file: cms/general.js*/
 (function () {
 
-    console.log('elad');
+    console.log('elad2');
 
 })();
