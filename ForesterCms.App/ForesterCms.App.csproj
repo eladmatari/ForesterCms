@@ -29,8 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\ForesterCms\Client\Styles\" />
-    <Folder Include="wwwroot\scripts\" />
-    <Folder Include="wwwroot\themes\" />
   </ItemGroup>
 
 </Project>

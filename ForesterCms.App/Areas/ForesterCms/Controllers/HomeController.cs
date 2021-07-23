@@ -1,4 +1,5 @@
 ﻿using Common.Utils.Logging;
+using ForesterCmsServices.UI.Base.Cms;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 namespace ForesterCms.App.Areas.ForesterCms.Controllers
 {
     [Area("ForesterCms")]
-    public class HomeController : Controller
+    public class HomeController : BaseCmsController
     {
         public IActionResult Index()
         {
-            Logger.Info("Hello");
+
 
             return View();
         }

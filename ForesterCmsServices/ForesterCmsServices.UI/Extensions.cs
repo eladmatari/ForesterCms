@@ -3,6 +3,7 @@ using ForesterCmsServices.Objects.Core;
 using ForesterCmsServices.UI.Models;
 using ForesterCmsServices.UI.Resources;
 using ForesterCmsServices.UI.Routing;
+using ForesterCmsServices.UI.Routing.Cms;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -61,9 +62,14 @@ namespace ForesterCmsServices.UI
             return new HtmlString($"<link href=\"{filePath}\" rel=\"stylesheet\" />");
         }
 
-        public static HtmlString BundleModulesScripts(this IHtmlHelper htmlHelper)
+        public static HtmlString BundleModulesScripts(this IHtmlHelper htmlHelper, bool isCms = false)
         {
-            var scripts = Router.Data.PageModel.GetScripts();
+            string[] scripts = null;
+            if (isCms)
+                scripts = CmsRouter.Data.PageModel.GetScripts();
+            else
+                scripts = Router.Data.PageModel.GetScripts();
+
             if (scripts.Length == 0)
                 return null;
 
@@ -72,9 +78,14 @@ namespace ForesterCmsServices.UI
             return htmlHelper.BundleScripts($"modules-{hash}", scripts);
         }
 
-        public static HtmlString BundleModulesCss(this IHtmlHelper htmlHelper)
+        public static HtmlString BundleModulesCss(this IHtmlHelper htmlHelper, bool isCms = false)
         {
-            var css = Router.Data.PageModel.GetCss();
+            string[] css = null;
+            if (isCms)
+                css = CmsRouter.Data.PageModel.GetCss();
+            else
+                css = Router.Data.PageModel.GetCss();
+
             if (css.Length == 0)
                 return null;
 
