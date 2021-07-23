@@ -23,4 +23,8 @@
     <ProjectReference Include="..\ForesterCmsServices.Objects\ForesterCmsServices.Objects.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Installs\" />
+  </ItemGroup>
+
 </Project>

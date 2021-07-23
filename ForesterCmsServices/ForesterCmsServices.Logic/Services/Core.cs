@@ -1,4 +1,5 @@
-﻿using ForesterCmsServices.Objects.Core;
+﻿using Common.Utils.Standard;
+using ForesterCmsServices.Objects.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,6 +37,24 @@ namespace ForesterCmsServices.Logic.Services
             }
 
             return ob;
+        }
+
+        public List<CmsLanguage> GetLanguages()
+        {
+            var table = DBHelper.Database.ExecuteDataTable("select * from cms_language");
+
+            var results = new List<CmsLanguage>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new CmsLanguage();
+
+                item.ObjId = row.Field<int>("id");
+                item.Name = row.Field<string>("name");
+                item.Alias = row.Field<string>("alias");
+            }
+
+            return results;
         }
 
         public List<CmsComponent> GetPageControlsByBoneId(int boneId, int lcid)

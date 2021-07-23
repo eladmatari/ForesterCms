@@ -46,6 +46,9 @@ namespace ForesterCms.App
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<Router>();
 
+            // Installs:
+            // https://github.com/microsoftarchive/redis/releases/tag/win-3.2.100
+            // 
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = "localhost";

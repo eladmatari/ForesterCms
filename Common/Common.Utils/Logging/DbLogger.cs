@@ -328,7 +328,7 @@ namespace Common.Utils.Logging
 
         private static void InsertGeneralLog(LogInfo log)
         {
-            InsertLogMethod.Invoke(log);
+            InsertLogMethod?.Invoke(log);
 
             log.IsInserted = true;
         }

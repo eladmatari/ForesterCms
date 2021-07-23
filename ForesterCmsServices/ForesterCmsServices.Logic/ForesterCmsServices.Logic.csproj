@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ForesterCmsServices.Data\ForesterCmsServices.Data.csproj" />
     <ProjectReference Include="..\ForesterCmsServices.Objects\ForesterCmsServices.Objects.csproj" />
   </ItemGroup>
 
