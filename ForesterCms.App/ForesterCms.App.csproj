@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\static\**" />
+    <Content Remove="wwwroot\static\**" />
+    <EmbeddedResource Remove="wwwroot\static\**" />
+    <None Remove="wwwroot\static\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="NLog.config" />
   </ItemGroup>
 
