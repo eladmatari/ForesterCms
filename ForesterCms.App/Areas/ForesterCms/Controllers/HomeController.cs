@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace ForesterCms.App.Areas.ForesterCms.Controllers
 {
     [Area("ForesterCms")]
-    [CmsAuth]
     public class HomeController : BaseCmsController
     {
         public IActionResult Index()

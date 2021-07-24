@@ -19,6 +19,8 @@
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="wwwroot\scripts\cms\libs\vue.js" />
+    <None Include="wwwroot\scripts\cms\libs\vue.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\ForesterCms\Client\Styles\" />
+    <Folder Include="wwwroot\images\cms\" />
   </ItemGroup>
 
 </Project>
