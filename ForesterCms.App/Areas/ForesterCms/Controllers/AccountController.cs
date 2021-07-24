@@ -1,6 +1,5 @@
 ﻿using Common.Utils.Logging;
 using ForesterCmsServices.UI.Cms.Base;
-using ForesterCmsServices.UI.Cms.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,10 +9,9 @@ using System.Threading.Tasks;
 namespace ForesterCms.App.Areas.ForesterCms.Controllers
 {
     [Area("ForesterCms")]
-    [CmsAuth]
-    public class HomeController : BaseCmsController
+    public class AccountController : BaseCmsController
     {
-        public IActionResult Index()
+        public IActionResult Login()
         {
 
 

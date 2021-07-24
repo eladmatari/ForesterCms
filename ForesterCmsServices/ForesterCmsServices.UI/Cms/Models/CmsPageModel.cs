@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ForesterCmsServices.UI.Models
+namespace ForesterCmsServices.UI.Cms.Models
 {
     public class CmsPageModel : BasePageModel
     {

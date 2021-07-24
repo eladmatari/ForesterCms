@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ForesterCmsServices.UI.Routing.Cms
+namespace ForesterCmsServices.UI.Cms.Routing
 {
     public static class CmsRouter
     {
