@@ -15,10 +15,10 @@
         "cms/general.scss"
     )
     @Html.BundleModulesCss(true)
-    @Html.BundleScripts("cms",
-        "cms/libs/vue.js",
-        "cms/general.js"
+    @Html.BundleScripts("cms-head",
+       "cms/head.js"
     )
+    <link rel="icon" type="image/x-icon" href="~/images/cms/favicon/favicon.ico" />
     @*@if (pageModel.FavIcon != null)
         {
             <link rel="icon" type="image/x-icon" href="@pageModel.FavIcon" />
@@ -29,6 +29,14 @@
     @RenderBody()
     @*@await Html.PartialAsync("~/Views/General/_Accessibility.cshtml")*@
     @CmsRouter.Data.PageModel.GetClientDataScript()
+    @Html.BundleScripts("cms-libs",
+        "cms/libs/jquery-3.6.0.min.js",
+        "cms/libs/axios.min.js",
+        "cms/libs/vue.js"
+    )
+    @Html.BundleScripts("cms",
+        "cms/general.js"
+    )
     @Html.BundleModulesScripts(true)
     @RenderSection("Scripts", required: false)
 </body>

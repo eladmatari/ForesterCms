@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\cms\" />
+    <Folder Include="wwwroot\images\cms\favicon\" />
   </ItemGroup>
 
 </Project>
