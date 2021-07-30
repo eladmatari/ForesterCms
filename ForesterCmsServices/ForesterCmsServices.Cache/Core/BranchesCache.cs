@@ -1,4 +1,5 @@
 ﻿using ForesterCmsServices.Cache.Base;
+using ForesterCmsServices.Logic;
 using ForesterCmsServices.Objects.Core;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace ForesterCmsServices.Cache.Core
 
         protected override List<CmsBranch> GetItemsAllFromDB()
         {
-            throw new NotImplementedException();
+            return CmsServicesManager.Core.GetBranches();
         }
 
         protected override void OnLoaded()

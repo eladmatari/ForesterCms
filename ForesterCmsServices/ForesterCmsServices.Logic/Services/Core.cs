@@ -39,6 +39,42 @@ namespace ForesterCmsServices.Logic.Services
             return ob;
         }
 
+        public List<CmsBranch> GetBranches()
+        {
+            var table = DBHelper.Database.ExecuteDataTable($@"SELECT 
+    b.*,
+    o.eid,
+	o.name,
+    o.status,
+    o.createdate,
+    o.updatedate,
+    o.sort
+FROM
+	cms_branch b
+	join
+    cms_object o
+    on
+    b.id = o.objid and b.lcid = o.lcid and o.eid = 2");
+
+            var results = new List<CmsBranch>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new CmsBranch();
+
+                item.SetBaseData(row);
+                item.ObjId = row.Field<int>("id");
+                item.LCID = row.Field<int>("lcid");
+                item.Alias = row.Field<string>("alias");
+                item.IsSystem = row.Field<UInt64>("system") == 1;
+                item.ParentId = row.Field<int?>("parentId");
+
+                results.Add(item);
+            }
+
+            return results;
+        }
+
         public List<CmsLanguage> GetLanguages()
         {
             var table = DBHelper.Database.ExecuteDataTable("select * from cms_language");

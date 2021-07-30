@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,25 @@ namespace ForesterCmsServices.Objects.Core
             public string Description { get; set; }
             public string Keywords { get; set; }
             public string Robots { get; set; }
+        }
+
+        public void SetBaseData(DataRow row)
+        {
+            if (row.Table.Columns.Contains("name"))
+                Name = row.Field<string>("name");
+
+            if (row.Table.Columns.Contains("eid"))
+                EntityInfoId = row.Field<int>("eid");
+
+
+            if (row.Table.Columns.Contains("createdate"))
+                CreateDate = row.Field<DateTime>("createdate");
+
+            if (row.Table.Columns.Contains("updatedate"))
+                UpdateDate = row.Field<DateTime>("updatedate");
+
+            if (row.Table.Columns.Contains("sort"))
+                Sort = row.Field<int?>("sort");
         }
     }
 

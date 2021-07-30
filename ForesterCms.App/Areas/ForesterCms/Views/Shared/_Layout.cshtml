@@ -9,6 +9,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="theme-color" content="#0177bd">
     <title>Forester CMS</title>
+    <meta name="description" content="Forester CMS is a light weight web cms, developers and users friendly" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="@Url.Content("~/")" />
     @Html.BundleCss("cms",
@@ -19,11 +20,7 @@
        "cms/head.js"
     )
     <link rel="icon" type="image/x-icon" href="~/images/cms/favicon/favicon.ico" />
-    @*@if (pageModel.FavIcon != null)
-        {
-            <link rel="icon" type="image/x-icon" href="@pageModel.FavIcon" />
-        }
-        @Html.Raw(pageModel.GetHeadHtml())*@
+    @*@Html.Raw(pageModel.GetHeadHtml())*@
 </head>
 <body>
     @RenderBody()
@@ -31,11 +28,12 @@
     @CmsRouter.Data.PageModel.GetClientDataScript()
     @Html.BundleScripts("cms-libs",
         "cms/libs/jquery-3.6.0.min.js",
+        "cms/libs/moment.min.js",
         "cms/libs/axios.min.js",
         "cms/libs/vue.js"
     )
     @Html.BundleScripts("cms",
-        "cms/general.js"
+        "cms/app.js"
     )
     @Html.BundleModulesScripts(true)
     @RenderSection("Scripts", required: false)
