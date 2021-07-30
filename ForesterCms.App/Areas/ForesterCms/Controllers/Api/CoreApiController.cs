@@ -9,7 +9,8 @@ namespace ForesterCms.App.Areas.ForesterCms.Controllers.Api
 {
     public class CoreApiController : Controller
     {
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Branches()
         {
             var branches = CacheManager.Branches.Items;
 

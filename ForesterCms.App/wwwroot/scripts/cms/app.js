@@ -166,21 +166,30 @@
 
     datasource.queryString = app.api.parseQueryString();
 
-    var getUrl = function (url, qsData, disableBrowserCache) {
-        url = datasource.appRoot + url +
-            '?boneId=' + datasource.boneid +
-            '&nsId=' + datasource.nsid +
-            '&ObjId=' + datasource.objid +
-            '&lcId=' + datasource.lcid;
+    app.api.getQueryChar = function (url) {
+        if (url.indexOf('?') > -1)
+            return '&';
 
-        if (datasource.queryString.preview)
-            url += '&preview=' + datasource.queryString.preview;
+        return '?';
+    }
+
+    var getUrl = function (url, qsData, disableBrowserCache) {
+        //url = url +
+        //    '?bId=' + (datasource.bid || '') +
+        //    '&nsId=' + (datasource.nsid || '') +
+        //    '&eId=' + (datasource.eid || '') +
+        //    '&lcId=' + (datasource.lcid || '');
+
+
+
+        //if (datasource.queryString.preview)
+        //    url += '&preview=' + datasource.queryString.preview;
 
         if (disableBrowserCache)
-            url += '&t=' + (+new Date());
+            url += app.api.getQueryChar(url) + 't=' + (+new Date());
 
         if (qsData) {
-            url += '&' + app.api.createQueryString(qsData);
+            url += app.api.getQueryChar(url) + app.api.createQueryString(qsData);
         }
 
         return url;

@@ -1,10 +1,14 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    outline: 0;
     color: #273849;
     font-family: Arial;
-    font-size:16px;
+    font-size: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    outline: 0;
 }
 
 header {
@@ -36,5 +40,40 @@ header {
             width: 40px;
             height: 40px;
         }
+    }
+}
+
+.middle {
+    position: fixed;
+    top: 63px;
+    right: 0;
+    left: 0;
+    height: calc(100vh - 63px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.branches-nav {
+    width: 250px;
+    border-left: 1px solid #e2e2e2;
+
+    select {
+        width: 100%;
+        border: 1px solid #ccc;
+        font-size: 18px;
+        padding: 5px 10px;
+    }
+
+    ::selection {
+        color: red;
+        background: yellow;
+    }
+}
+
+.rtl {
+    .middle {
+        direction: rtl;
+        text-align: right;
     }
 }

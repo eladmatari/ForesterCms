@@ -1,10 +1,23 @@
-﻿@*
-    
-*@
+﻿@{ 
+    CmsRouter.Data.PageModel.AddScripts(
+        "cms/modules/branches-nav.js",
+        "cms/modules/_container.js"
+    );
+}
 
-<header>
-    <a class="logo" href="/">
-        <img src="images/cms/logo.png" alt="cms logo" />
-        <span>Forester Cms</span>
-    </a>
-</header>
+<div id="cms-container" v-bind:class="{ rtl: isRtl }">
+    <header>
+        <a class="logo" href="/">
+            <img src="images/cms/logo.png" alt="cms logo" />
+            <span>Forester Cms</span>
+        </a>
+    </header>
+    <div class="middle">
+        <nav class="branches-nav">
+            <cms-branches-nav ref="branchesNav"></cms-branches-nav>
+        </nav>
+        <main>
+            main
+        </main>
+    </div>
+</div>
