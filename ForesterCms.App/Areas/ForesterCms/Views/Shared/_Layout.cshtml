@@ -12,9 +12,7 @@
     <meta name="description" content="Forester CMS is a light weight web cms, developers and users friendly" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="@Url.Content("~/")" />
-    @Html.BundleCss("cms",
-        "cms/general.scss"
-    )
+    <link rel="stylesheet" type="text/css" href="@(Html.WebpackPath("cms.css"))" asp-append-version="true" />
     @Html.BundleModulesCss(true)
     @*@Html.BundleScripts("cms-head",
        "cms/head.js"
