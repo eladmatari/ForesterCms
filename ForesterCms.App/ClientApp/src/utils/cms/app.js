@@ -1,7 +1,10 @@
 import * as Vue from 'vue';
 import * as jQuery from 'jquery';
+import * as axios from 'axios';
 
 window.$ = window.jQuery = jQuery;
+window.axios = axios;
+window.Vue = Vue;
 
 if (!window.datasource)
     window.datasource = {};
@@ -94,9 +97,7 @@ window.vueApp = {
             }
 
             element.attr('vued', '');
-            //options.el = element[0];
-            //var vueContext = new Vue(options);
-            debugger
+
             var vueContext = Vue.createApp(options).mount(element[0]);
             vueContexts.push(vueContext);
         });
