@@ -1,4 +1,7 @@
 import * as Vue from 'vue';
+import * as jQuery from 'jquery';
+
+window.$ = window.jQuery = jQuery;
 
 if (!window.datasource)
     window.datasource = {};
@@ -72,14 +75,15 @@ window.vueApp = {
         if (typeof options.el !== 'string')
             throw 'options.el must be a string';
 
-        options.comments = true;
+        var selector = options.el;
+        delete options.el;
 
         if (options)
             this.options[key] = $.extend({}, options);
         else
             options = $.extend({}, this.options[key]);
 
-        var selector = options.el;
+
         var vueContexts = [];
 
         $(selector).each(function (index, element) {
@@ -89,16 +93,17 @@ window.vueApp = {
 
             if (datasource.env !== 3 || datasource.queryString.debug === '1') {
                 try {
-                    setVueDebugInfo(element);
+                    //setVueDebugInfo(element);
                 }
                 catch (e) {
                     console.error(e);
                 }
             }
-
+            debugger
             element.attr('vued', '');
-            options.el = element[0];
-            var vueContext = new Vue(options);
+            //options.el = element[0];
+            //var vueContext = new Vue(options);
+            Vue.createApp(options).mount(element[0]);
             vueContexts.push(vueContext);
         });
 

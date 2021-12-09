@@ -54,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\modules\cms\branches\" />
     <Folder Include="wwwroot\images\cms\favicon\" />
   </ItemGroup>
 

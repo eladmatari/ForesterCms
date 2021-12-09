@@ -2,8 +2,8 @@
 
     vueApp.set('cms', {
         el: '#cms-container',
-        data: {
-
+        data: function () {
+            return {};
         },
         computed: {
             isRtl: function () {
