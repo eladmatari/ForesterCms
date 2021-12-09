@@ -17,7 +17,7 @@ filesHelper.getDirInfos(path.join(__dirname, 'src', 'modules')).forEach((dir) =>
     }
 
     filesHelper.getFileInfos(dir.path, true, (f) => {
-        return f.isDirectory || f.extension == 'js';
+        return f.isDirectory || f.extension == 'js' || f.extension == 'vue';
     }).forEach((f) => {
         moduleEntry.import.push(f.path);
     });
