@@ -18,14 +18,15 @@
   <ItemGroup>
     <None Remove="ClientApp\src\common\head.js" />
     <None Remove="ClientApp\src\modules\cms\main.scss" />
+    <None Remove="ClientApp\src\utils\head.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ClientApp\src\modules\cms\head.js">
+    <Content Include="ClientApp\src\modules\cms\main.scss">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="ClientApp\src\modules\cms\main.scss">
+    <Content Include="ClientApp\src\utils\cms\head.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
