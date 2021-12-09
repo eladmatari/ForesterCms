@@ -35,8 +35,8 @@
     @Html.BundleScripts("cms",
         "cms/app.js"
     )*@
-    <script asp-append-version="true" src="~/webpack/prod/vendors.js"></script>
-    <script asp-append-version="true" src="~/webpack/prod/common.js"></script>
+    <script asp-append-version="true" src="@(Html.WebpackPath("vendors.js"))"></script>
+    <script asp-append-version="true" src="@(Html.WebpackPath("common.js"))"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -22,5 +22,5 @@
     </div>
 </div>
 @section Scripts{
-    <script asp-append-version="true" src="~/webpack/prod/cms.js"></script>
+    <script asp-append-version="true" src="@(Html.WebpackPath("cms.js"))"></script>
 }
