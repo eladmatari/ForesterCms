@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\" />
     <Folder Include="wwwroot\images\cms\favicon\" />
   </ItemGroup>
 
