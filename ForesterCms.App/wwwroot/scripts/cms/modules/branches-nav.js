@@ -1,4 +1,30 @@
 ﻿(function () {
+
+    Vue.component('cms-branches-items', {
+        props: ['branch'],
+        data: function () {
+            return {
+
+            }
+        },
+        template: `<div>
+    {{ branch.name }}
+</div>`
+    });
+
+
+    Vue.component('cms-branches-items', {
+        props: ['branch'],
+        data: function () {
+            return {
+
+            }
+        },
+        template: `<div>
+<cms-branches-item v-for="branchChild in branch.children" :key="branchChild.objId" :branch="branchChild"></cms-branches-item>
+</div>`
+    });
+
     Vue.component('cms-branches-nav', {
         data: function () {
             return {
@@ -10,10 +36,13 @@
         template: `<div>
         <div>
             <select v-model="mainBranch">
-                <option v-for="branch in branchesTree" v-bind:value="branch">
+                <option v-for="branch in branchesTree" :key="branch.objId" :value="branch">
                     {{ branch.name }}
                 </option>
             </select>
+        </div>
+        <div>
+            <cms-branches-items branch="mainBranch" v-if="mainBranch"></cms-branches-items>
         </div>
 </div>`,
         methods: {
@@ -24,6 +53,7 @@
 
             app.api.get('coreapi/branches').then(function (response) {
                 try {
+
                     self.branches = Vue.observable(response.data);
 
                     var branchesTree = self.branches.filter(function (branch) {
