@@ -2,20 +2,12 @@ import './main.scss';
 import '../../utils/cms/head.js'
 import '../../utils/cms/app.js'
 
-vueApp.set('cms', {
-    el: '#cms-container',
-    data: {
-
-    },
-    computed: {
-        isRtl: function () {
-            return true;
+const CmsApp = {
+    data() {
+        return {
+            counter: 0
         }
-    },
-    methods: {
-
-    },
-    created: function () {
-
     }
-});
+}
+
+vueApp.set('cms', '#cms-container', CmsApp);

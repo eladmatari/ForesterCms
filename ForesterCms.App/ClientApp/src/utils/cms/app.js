@@ -67,22 +67,15 @@ var setVueDebugInfo = function (element) {
 }
 
 window.vueApp = {
-    set: function (key, options) {
+    set: function (key, selector, options) {
 
         if (['set', 'options', 'copy'].indexOf(key) > -1)
             throw key + ' is not allowed';
-
-        if (typeof options.el !== 'string')
-            throw 'options.el must be a string';
-
-        var selector = options.el;
-        delete options.el;
 
         if (options)
             this.options[key] = $.extend({}, options);
         else
             options = $.extend({}, this.options[key]);
-
 
         var vueContexts = [];
 
@@ -99,11 +92,12 @@ window.vueApp = {
                     console.error(e);
                 }
             }
-            debugger
+
             element.attr('vued', '');
             //options.el = element[0];
             //var vueContext = new Vue(options);
-            Vue.createApp(options).mount(element[0]);
+            debugger
+            var vueContext = Vue.createApp(options).mount(element[0]);
             vueContexts.push(vueContext);
         });
 
