@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    Vue.component('cms-branches-items', {
+    Vue.component('cms-branches-item', {
         props: ['branch'],
         data: function () {
             return {
@@ -22,7 +22,10 @@
         },
         template: `<div>
 <cms-branches-item v-for="branchChild in branch.children" :key="branchChild.objId" :branch="branchChild"></cms-branches-item>
-</div>`
+</div>`,
+        created: function () {
+
+        }
     });
 
     Vue.component('cms-branches-nav', {
@@ -42,7 +45,7 @@
             </select>
         </div>
         <div>
-            <cms-branches-items branch="mainBranch" v-if="mainBranch"></cms-branches-items>
+            <cms-branches-items :branch="mainBranch" v-if="mainBranch"></cms-branches-items>
         </div>
 </div>`,
         methods: {
@@ -67,7 +70,7 @@
                         }
 
                         branch.children = self.branches.filter(function (currBranch) {
-                            return currBranch.parentId === branch.id;
+                            return currBranch.parentId === branch.objId;
                         });
 
                         branch.children.map(function (currBranch) {
