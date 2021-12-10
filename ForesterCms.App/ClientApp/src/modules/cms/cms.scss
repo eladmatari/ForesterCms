@@ -11,6 +11,8 @@
     outline: 0;
 }
 
+[v-cloak] { visibility: hidden; }
+
 header {
     height: 63px;
     position: fixed;
@@ -52,7 +54,6 @@ header {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    direction:rtl;
 }
 
 .branches-nav {
