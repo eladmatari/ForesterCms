@@ -1,6 +1,4 @@
 <script>
-    import CmsBranchesItem from './cms-branches-item.vue'
-
     export default {
         props: ['branch'],
         data() {
@@ -15,9 +13,6 @@
         },
         created: function () {
             
-        },
-        components: {
-            CmsBranchesItem
         }
     }
 </script>

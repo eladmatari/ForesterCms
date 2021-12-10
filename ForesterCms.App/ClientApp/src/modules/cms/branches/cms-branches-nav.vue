@@ -1,6 +1,4 @@
 <script>
-    import CmsBranchesItems from './cms-branches-items.vue'
-
     export default {
         data() {
             return {

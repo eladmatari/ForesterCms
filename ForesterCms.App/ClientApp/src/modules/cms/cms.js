@@ -4,6 +4,8 @@ import 'microns/fonts/microns.scss';
 import '../../utils/cms/head.js'
 import '../../utils/cms/app.js'
 import CmsBranchesNav from './branches/cms-branches-nav.vue'
+import CmsBranchesItems from './branches/cms-branches-items.vue'
+import CmsBranchesItem from './branches/cms-branches-item.vue'
 import * as VueRouter from 'vue-router';
 
 const SomeTest = { template: '<div>Test</div>' }
@@ -45,12 +47,12 @@ const CmsApp = {
         setLocalStorage: function (lsData) {
             localStorageService.setItem('fcms', lsData);
         }
-    },
-    components: {
-        CmsBranchesNav
     }
 }
 
 vueApp.set('cms', '#cms-container', CmsApp, function (app) {
+    app.component('cms-branches-nav', CmsBranchesNav);
+    app.component('cms-branches-items', CmsBranchesItems);
+    app.component('cms-branches-item', CmsBranchesItem);
     app.use(router);
 });
