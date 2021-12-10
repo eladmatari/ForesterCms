@@ -26,6 +26,7 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "vue": "^3.2.23",
+    "vue-router": "4.0.12",
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.19.1",
     "regenerator-runtime": "^0.13.9",

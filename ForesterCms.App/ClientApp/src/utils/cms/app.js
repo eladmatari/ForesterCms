@@ -70,7 +70,7 @@ var setVueDebugInfo = function (element) {
 }
 
 window.vueApp = {
-    set: function (key, selector, options) {
+    set: function (key, selector, options, onCreateApp) {
 
         if (['set', 'options', 'copy'].indexOf(key) > -1)
             throw key + ' is not allowed';
@@ -98,7 +98,11 @@ window.vueApp = {
 
             element.attr('vued', '');
 
-            var vueContext = Vue.createApp(options).mount(element[0]);
+            let app = Vue.createApp(options);
+            if (typeof onCreateApp == 'function')
+                onCreateApp(app);
+
+            var vueContext = app.mount(element[0]);
             vueContexts.push(vueContext);
         });
 
