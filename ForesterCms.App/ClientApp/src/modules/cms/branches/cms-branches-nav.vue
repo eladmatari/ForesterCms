@@ -1,4 +1,6 @@
 <script>
+    import CmsBranchesItems from './cms-branches-items.vue'
+
     export default {
         data() {
             return {
@@ -55,6 +57,9 @@
                     console.error(e);
                 }
             });
+        },
+        components: {
+            CmsBranchesItems
         }
     }
 </script>
@@ -75,5 +80,5 @@
 </template>
 
 <style>
-    .greeting { color: red; font-weight: bold; }
+    
 </style>
