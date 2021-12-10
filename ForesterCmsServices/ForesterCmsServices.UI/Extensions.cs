@@ -236,5 +236,16 @@ namespace ForesterCmsServices.UI
 
             return null;
         }
+
+        public static string WebpackPath(this IHtmlHelper htmlHelper, string fileName)
+        {
+            string basePath = null;
+            if (ResourceGroupHelper.IsDebugModeEnabled == true)
+                basePath = "dev";
+            else
+                basePath = "prod";
+
+            return $"~/webpack/{basePath}/{fileName}";
+        }
     }
 }

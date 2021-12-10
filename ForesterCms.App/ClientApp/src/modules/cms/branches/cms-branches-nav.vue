@@ -1,53 +1,14 @@
-﻿(function () {
+<script>
+    import CmsBranchesItems from './cms-branches-items.vue'
 
-    Vue.component('cms-branches-item', {
-        props: ['branch'],
-        data: function () {
-            return {
-
-            }
-        },
-        template: `<div>
-    {{ branch.name }}
-</div>`
-    });
-
-
-    Vue.component('cms-branches-items', {
-        props: ['branch'],
-        data: function () {
-            return {
-
-            }
-        },
-        template: `<div>
-<cms-branches-item v-for="branchChild in branch.children" :key="branchChild.objId" :branch="branchChild"></cms-branches-item>
-</div>`,
-        created: function () {
-
-        }
-    });
-
-    Vue.component('cms-branches-nav', {
-        data: function () {
+    export default {
+        data() {
             return {
                 branches: [],
                 branchesTree: [],
                 mainBranch: null
             }
         },
-        template: `<div>
-        <div>
-            <select v-model="mainBranch">
-                <option v-for="branch in branchesTree" :key="branch.objId" :value="branch">
-                    {{ branch.name }}
-                </option>
-            </select>
-        </div>
-        <div>
-            <cms-branches-items :branch="mainBranch" v-if="mainBranch"></cms-branches-items>
-        </div>
-</div>`,
         methods: {
 
         },
@@ -56,8 +17,8 @@
 
             app.api.get('coreapi/branches').then(function (response) {
                 try {
-
-                    self.branches = Vue.observable(response.data);
+                    
+                    self.branches = Vue.reactive(response.data);
 
                     var branchesTree = self.branches.filter(function (branch) {
                         return !branch.parentId;
@@ -89,14 +50,35 @@
                         setBranchChildren(branch, 0);
                     });
 
-                    self.branchesTree = Vue.observable(branchesTree);
+                    self.branchesTree = Vue.reactive(branchesTree);
                     self.mainBranch = self.branchesTree[0];
                 }
                 catch (e) {
                     console.error(e);
                 }
             });
+        },
+        components: {
+            CmsBranchesItems
         }
-    })
+    }
+</script>
 
-})();
+<template>
+    <div>
+        <div>
+            <select v-model="mainBranch">
+                <option v-for="branch in branchesTree" :key="branch.objId" :value="branch">
+                    {{ branch.name }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <cms-branches-items :branch="mainBranch" v-if="mainBranch"></cms-branches-items>
+        </div>
+    </div>
+</template>
+
+<style>
+    
+</style>
