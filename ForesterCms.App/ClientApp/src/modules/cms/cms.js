@@ -4,15 +4,15 @@ import '../../utils/cms/app.js'
 import CmsBranchesNav from './branches/cms-branches-nav.vue'
 import * as VueRouter from 'vue-router';
 
-const Home = { template: '<div>Home</div>' }
-const About = { template: '<div>About</div>' }
+const SomeTest = { template: '<div>Test</div>' }
+const DefaultMain = { template: '<div>DefaultMain</div>' }
 
 // 2. Define some routes
 // Each route should map to a component.
 // We'll talk about nested routes later.
 const routes = [
-    { path: '/ForesterCms', component: Home },
-    { path: '/ForesterCms/about', component: About },
+    { path: '/ForesterCms/sometesturl', component: SomeTest },
+    { path: '/:pathMatch(.*)', component: DefaultMain },
 ]
 
 // 3. Create the router instance and pass the `routes` option

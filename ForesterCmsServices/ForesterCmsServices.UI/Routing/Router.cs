@@ -2,6 +2,7 @@
 using Common.Utils.Standard;
 using ForesterCmsServices.Cache;
 using ForesterCmsServices.Logic;
+using ForesterCmsServices.Objects;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -16,14 +17,24 @@ namespace ForesterCmsServices.UI.Routing
     {
         public override async ValueTask<RouteValueDictionary> TransformAsync(Microsoft.AspNetCore.Http.HttpContext httpContext, RouteValueDictionary values)
         {
-            var data = GetRouteData(httpContext);
             values.Clear();
 
-            if (data != null)
+            if (CmsConfig.IsCms && httpContext.Request.Path.Value.StartsWith("/ForesterCms/", StringComparison.OrdinalIgnoreCase))
             {
-                Data = data;
-                values["controller"] = data.RouteParams.Controller;
-                values["action"] = data.RouteParams.Action;
+                values["controller"] = "Home";
+                values["action"] = "Index";
+                values["area"] = "ForesterCms";
+            }
+            else if (CmsConfig.IsSite)
+            {
+                var data = GetRouteData(httpContext);
+
+                if (data != null)
+                {
+                    Data = data;
+                    values["controller"] = data.RouteParams.Controller;
+                    values["action"] = data.RouteParams.Action;
+                }
             }
 
             return values;
