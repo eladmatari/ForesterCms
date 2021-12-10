@@ -5,7 +5,7 @@
         data() {
             return {
                 branches: [],
-                branchesTree: [],
+                branchesTrees: [],
                 mainBranch: null
             }
         },
@@ -24,11 +24,11 @@
                     
                     self.branches = Vue.reactive(response.data);
 
-                    var branchesTree = self.branches.filter(function (branch) {
+                    var branchesTrees = self.branches.filter(function (branch) {
                         return !branch.parentId;
                     });
 
-                    var setBranchChildren = function (branch, counter) {
+                    var setBranchChildren = function (branch, counter, branchesTree) {
                         if (counter > 50) {
                             console.error(branch, 'setBranchChildren counter max');
                             return;
@@ -36,30 +36,34 @@
 
                         branch.children = self.branches.filter(function (currBranch) {
                             return currBranch.parentId === branch.objId;
+                        }).map((currBranch) => {
+                            currBranch.tree = branchesTree;
+
+                            return currBranch;
                         });
 
                         branch.children.map(function (currBranch) {
-                            setBranchChildren(currBranch, counter + 1);
+                            setBranchChildren(currBranch, counter + 1, branchesTree);
                         });
                     }
 
-                    branchesTree.sort(function (a, b) {
+                    branchesTrees.sort(function (a, b) {
                         if (a.sort > b.sort)
                             return 1;
 
                         return -1;
                     });
 
-                    branchesTree.map(function (branch) {
-                        setBranchChildren(branch, 0);
+                    branchesTrees.map(function (branchesTree) {
+                        setBranchChildren(branchesTree, 0, branchesTree);
                     });
 
-                    self.branchesTree = Vue.reactive(branchesTree);
+                    self.branchesTrees = Vue.reactive(branchesTrees);
 
                     var lsData = vueApp.cms.getLocalStorage();
-                    self.mainBranch = self.branchesTree.filter(function (tree) {
+                    self.mainBranch = self.branchesTrees.filter(function (tree) {
                         return tree.objId == lsData.mainBranchId;
-                    })[0] || self.branchesTree[0];
+                    })[0] || self.branchesTrees[0];
                 }
                 catch (e) {
                     console.error(e);
@@ -76,8 +80,8 @@
     <div>
         <div>
             <select v-model="mainBranch" v-on:change="onTreeBranchChange()">
-                <option v-for="branch in branchesTree" :key="branch.objId" :value="branch">
-                    {{ branch.name }}
+                <option v-for="branchesTree in branchesTrees" :key="branchesTree.objId" :value="branchesTree">
+                    {{ branchesTree.name }}
                 </option>
             </select>
         </div>

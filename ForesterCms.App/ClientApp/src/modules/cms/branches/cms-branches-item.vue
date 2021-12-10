@@ -3,13 +3,15 @@
         props: ['branch'],
         data() {
             return {
-                branches: [],
-                branchesTree: [],
-                mainBranch: null
+                
             }
         },
         methods: {
+            getBranchLink() {
+                let branch = this.$props.branch;
 
+                return `/ForesterCms/?t=` + branch.tree.objId + '&b=' + branch.objId;
+            }
         },
         created: function () {
             
@@ -19,7 +21,7 @@
 
 <template>
     <div class="cms-branches-item">
-        <router-link :to="'/ForesterCms/branch/' + branch.objId">{{ branch.name }}</router-link>
+        <router-link :to="getBranchLink()">{{ branch.name }}</router-link>
     </div>
 </template>
 
