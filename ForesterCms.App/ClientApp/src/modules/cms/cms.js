@@ -37,6 +37,20 @@ const CmsApp = {
             return true;
         }
     },
+    methods: {
+        getLocalStorage: function () {
+            var lsData = localStorageService.getItem('fcms');
+            if (!lsData) {
+                lsData = {};
+                this.setLocalStorage(lsData);
+            }
+
+            return lsData;
+        },
+        setLocalStorage: function (lsData) {
+            localStorageService.setItem('fcms', lsData);
+        }
+    },
     components: {
         CmsBranchesNav
     }

@@ -10,7 +10,11 @@
             }
         },
         methods: {
-
+            onTreeBranchChange() {
+                var lsData = vueApp.cms.getLocalStorage();
+                lsData.mainBranchId = this.mainBranch.objId;
+                vueApp.cms.setLocalStorage(lsData);
+            }
         },
         created: function () {
             var self = this;
@@ -51,7 +55,11 @@
                     });
 
                     self.branchesTree = Vue.reactive(branchesTree);
-                    self.mainBranch = self.branchesTree[0];
+
+                    var lsData = vueApp.cms.getLocalStorage();
+                    self.mainBranch = self.branchesTree.filter(function (tree) {
+                        return tree.objId == lsData.mainBranchId;
+                    })[0] || self.branchesTree[0];
                 }
                 catch (e) {
                     console.error(e);
@@ -67,7 +75,7 @@
 <template>
     <div>
         <div>
-            <select v-model="mainBranch">
+            <select v-model="mainBranch" v-on:change="onTreeBranchChange()">
                 <option v-for="branch in branchesTree" :key="branch.objId" :value="branch">
                     {{ branch.name }}
                 </option>
