@@ -1,4 +1,6 @@
 <script>
+    import CmsBranchesItems from './cms-branches-items.vue'
+
     export default {
         props: ['branch'],
         data() {
@@ -11,17 +13,31 @@
                 let branch = this.$props.branch;
 
                 return `/ForesterCms/?t=` + branch.tree.objId + '&b=' + branch.objId;
+            },
+            toggleOpen() {
+                let branch = this.$props.branch;
+                branch.isOpen = !branch.isOpen;
             }
         },
         created: function () {
             
+        },
+        components: {
+            CmsBranchesItems
         }
     }
 </script>
 
 <template>
     <div class="cms-branches-item">
+        <button class="mu mu-i-left cms-expand" 
+                @click="toggleOpen()"
+                v-bind:class="{ open: branch.isOpen }">
+        </button>
         <router-link :to="getBranchLink()">{{ branch.name }}</router-link>
+        <div>
+            <cms-branches-items :branch="branch" v-if="branch.isOpen"></cms-branches-items>
+        </div>
     </div>
 </template>
 
@@ -37,6 +53,17 @@
 
         a:hover {
             text-decoration: underline;
+        }
+    }
+
+    button.cms-expand {
+        background: none;
+        border: none;
+        font-size: 15px;
+        cursor: pointer;
+
+        &:hover{
+            color: gray;
         }
     }
 </style>

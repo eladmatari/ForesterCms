@@ -38,6 +38,7 @@
                             return currBranch.parentId === branch.objId;
                         }).map((currBranch) => {
                             currBranch.tree = branchesTree;
+                            currBranch.isOpen = false;
 
                             return currBranch;
                         });
@@ -69,9 +70,6 @@
                     console.error(e);
                 }
             });
-        },
-        components: {
-            CmsBranchesItems
         }
     }
 </script>

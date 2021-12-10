@@ -1,4 +1,6 @@
 import './cms.scss';
+// https://www.s-ings.com/projects/microns-icon-font/
+import 'microns/fonts/microns.scss';
 import '../../utils/cms/head.js'
 import '../../utils/cms/app.js'
 import CmsBranchesNav from './branches/cms-branches-nav.vue'

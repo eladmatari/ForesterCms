@@ -32,6 +32,7 @@
     "regenerator-runtime": "^0.13.9",
     "swiper": "^7.3.1",
     "jquery": "^3.6.0",
-    "axios": "^0.24.0"
+    "axios": "^0.24.0",
+    "microns": "^1.0.10"
   }
 }
