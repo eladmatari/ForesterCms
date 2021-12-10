@@ -1,0 +1,1 @@
+{"version":3,"file":"branches.js","mappings":";;;;;;;;AAAAA,OAAO,CAACC,GAAR,CAAY,OAAZ","sources":["webpack://ds/./src/modules/branches/branches.js"],"sourcesContent":["console.log('yosi1');"],"names":["console","log"],"sourceRoot":""}

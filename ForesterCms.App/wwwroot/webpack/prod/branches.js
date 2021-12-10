@@ -1,0 +1,1 @@
+(self.webpackChunkds=self.webpackChunkds||[]).push([[905],{5752:()=>{console.log("yosi1")}},s=>{s.O(0,[216],(()=>(5752,s(s.s=5752)))),s.O()}]);
