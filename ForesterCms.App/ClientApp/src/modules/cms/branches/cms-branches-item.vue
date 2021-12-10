@@ -18,11 +18,23 @@
 </script>
 
 <template>
-    <div>
-        {{ branch.name }}
+    <div class="cms-branches-item">
+        <router-link :to="'/ForesterCms/branch/' + branch.objId">{{ branch.name }}</router-link>
     </div>
 </template>
 
-<style>
-    
+<style lang="scss" scoped>
+    .cms-branches-item {
+        margin-bottom: 5px;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            /*cursor: default;*/
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    }
 </style>

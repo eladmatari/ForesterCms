@@ -23,11 +23,11 @@
 </script>
 
 <template>
-    <div>
+    <div class="cms-branches-items">
         <cms-branches-item v-for="branchChild in branch.children" :key="branchChild.objId" :branch="branchChild"></cms-branches-item>
     </div>
 </template>
 
-<style>
-    
+<style scoped>
+    .cms-branches-items { padding: 10px 7px; }
 </style>
