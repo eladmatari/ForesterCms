@@ -8,12 +8,14 @@ import CmsBranchesItems from './branches/nav/items.vue'
 import CmsBranchesItem from './branches/nav/item.vue'
 import * as VueRouter from 'vue-router';
 
+import CmsBranchesEdit from './branches/main/edit/edit.vue';
 const SomeTest = { template: '<div>Test</div>' }
 const DefaultMain = { template: '<div>DefaultMain</div>' }
 
 const routes = [
     { path: '/ForesterCms/sometesturl', component: SomeTest },
-    { path: '/:pathMatch(.*)', component: DefaultMain },
+    { path: '/ForesterCms/branch/edit', component: CmsBranchesEdit },
+    { path: '/:pathMatch(.*)', component: DefaultMain }
 ]
 
 const router = VueRouter.createRouter({
