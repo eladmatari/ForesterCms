@@ -3,9 +3,9 @@ import './cms.scss';
 import 'microns/fonts/microns.scss';
 import '../../utils/cms/head.js'
 import '../../utils/cms/app.js'
-import CmsBranchesNav from './branches/nav.vue'
-import CmsBranchesItems from './branches/items.vue'
-import CmsBranchesItem from './branches/item.vue'
+import CmsBranchesNav from './branches/nav/nav.vue'
+import CmsBranchesItems from './branches/nav/items.vue'
+import CmsBranchesItem from './branches/nav/item.vue'
 import * as VueRouter from 'vue-router';
 
 const SomeTest = { template: '<div>Test</div>' }
