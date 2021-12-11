@@ -1,5 +1,6 @@
 <script>
     export default {
+        name: 'cms-branches-items',
         props: ['branch'],
         data() {
             return {

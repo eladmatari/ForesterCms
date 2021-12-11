@@ -1,5 +1,6 @@
 <script>
     export default {
+        name: 'cms-branches-nav',
         data() {
             return {
                 branches: [],
