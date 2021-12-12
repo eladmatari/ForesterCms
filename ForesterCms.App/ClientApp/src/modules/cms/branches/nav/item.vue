@@ -11,7 +11,7 @@
             getItemsLink() {
                 let branch = this.$props.branch;
 
-                return '/ForesterCms/branch/items/?b=' + branch.objId;
+                return '/ForesterCms/branch/objects/?b=' + branch.objId;
             },
             getEditLink() {
                 let branch = this.$props.branch;
