@@ -24,15 +24,16 @@
     "url-loader": "^4.1.1"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
-    "vue": "^3.2.23",
-    "vue-router": "4.0.12",
+    "axios": "^0.24.0",
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.19.1",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
+    "microns": "^1.0.10",
     "regenerator-runtime": "^0.13.9",
     "swiper": "^7.3.1",
-    "jquery": "^3.6.0",
-    "axios": "^0.24.0",
-    "microns": "^1.0.10"
+    "vue": "^3.2.23",
+    "vue-router": "4.0.12",
+    "vuex": "^4.0.2"
   }
 }
