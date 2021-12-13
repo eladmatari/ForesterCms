@@ -69,6 +69,23 @@ var setVueDebugInfo = function (element) {
     });
 }
 
+var getVacDs = function (element) {
+    let vacDs = null;
+    try {
+        let vacDsStr = element.attr('vac-ds');
+        if (vacDsStr) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = vacDsStr;
+            vacDs = JSON.parse(txt.value);
+            return vacDs;
+        }
+    }
+    catch (e) {
+        console.error('vac-ds', selector, e);
+        return null;
+    }
+}
+
 window.vueApp = {
     set: function (key, selector, options, onCreateApp) {
 
@@ -97,10 +114,13 @@ window.vueApp = {
             }
 
             element.attr('vued', '');
+            let vacDs = getVacDs(element);
 
-            let app = Vue.createApp(options);
-            if (typeof onCreateApp == 'function')
-                onCreateApp(app);
+            let app = Vue.createApp(options, { datasource: vacDs });
+            if (typeof onCreateApp == 'function') {
+                let moduleName = element.attr('vac-module');
+                onCreateApp(app, moduleName);
+            }
 
             var vueContext = app.mount(element[0]);
             vueContexts.push(vueContext);
