@@ -16,25 +16,15 @@ filesHelper.getDirInfos(path.join(__dirname, 'src', 'modules')).forEach((dir) =>
         dependOn: 'common'
     }
 
-    filesHelper.getFileInfos(dir.path, true, (f) => {
-        return f.isDirectory || f.extension == 'js' || f.extension == 'vue';
-    }).forEach((f) => {
-        moduleEntry.import.push(f.path);
-    });
-
-    if (moduleEntry.import.length > 0) {
+    let indexFilePath = dir.path + '\\index.js';
+    if (fs.existsSync(indexFilePath)) {
+        moduleEntry.import.push(indexFilePath);
         entry[dir.name] = moduleEntry;
+        console.log('file exists', indexFilePath);
     }
-
 });
 
-entry.common = [];
-
-filesHelper.getFileInfos(path.join(__dirname, 'src', 'common'), true, (f) => {
-    return f.isDirectory || f.extension == 'js' || f.extension == 'vue';
-}).forEach((f) => {
-    entry.common.push(f.path);
-});
+entry.common = [path.join(__dirname, 'src', 'common', 'index.js')];
 
 module.exports = {
     mode: "development",
@@ -42,7 +32,6 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, '..', 'wwwroot', 'webpack', 'dev'),
-        //ecmaVersion: 5
     },
     optimization: {
         splitChunks: {
@@ -60,7 +49,6 @@ module.exports = {
             },
             {
                 test: /\.m?js$/,
-                //exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: 'babel-loader'
                 }
@@ -109,8 +97,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            //path: path.resolve(__dirname, '..', 'wwwroot', 'webpack', 'prod')
+            filename: '[name].css'
         }),
         new Webpack.DefinePlugin({ __VUE_OPTIONS_API__: true, __VUE_PROD_DEVTOOLS__: true }), // to remove warn in browser console: runtime-core.esm-bundler.js:3607 Feature flags __VUE_OPTIONS_API__, __VUE_PROD_DEVTOOLS__ are not explici
     ],
