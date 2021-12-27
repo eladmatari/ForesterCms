@@ -13,10 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="@Url.Content("~/")" />
     <link rel="stylesheet" type="text/css" href="@(Html.WebpackPath("cms.css"))" asp-append-version="true" />
-    @Html.BundleModulesCss(true)
+    @*@Html.BundleModulesCss(true)*@
     @*@Html.BundleScripts("cms-head",
-       "cms/head.js"
-    )*@
+        "cms/head.js"
+        )*@
     <link rel="icon" type="image/x-icon" href="~/images/cms/favicon/favicon.ico" />
     @*@Html.Raw(pageModel.GetHeadHtml())*@
 </head>
@@ -29,10 +29,14 @@
         "cms/libs/moment.min.js",
         "cms/libs/axios.min.js",
         "cms/libs/vue.js"
-    )
-    @Html.BundleScripts("cms",
+        )
+        @Html.BundleScripts("cms",
         "cms/app.js"
-    )*@
+        )*@
+    <script>
+        window.datasource = {};
+        datasource.clientPath = '@Html.GetClientFolder()';
+    </script>
     <script asp-append-version="true" src="@(Html.WebpackPath("vendors.js"))"></script>
     <script asp-append-version="true" src="@(Html.WebpackPath("common.js"))"></script>
     @RenderSection("Scripts", required: false)

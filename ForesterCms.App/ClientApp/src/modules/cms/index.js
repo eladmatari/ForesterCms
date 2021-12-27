@@ -14,8 +14,6 @@ import CmsBranchesItem from './branches/nav/item.vue'
 
 
 
-
-
 const CmsApp = {
     data() {
         return {
@@ -106,9 +104,13 @@ const CmsApp = {
     }
 }
 
+vueApp.addComponent(CmsBranchesNav);
+vueApp.addComponent(CmsBranchesItems);
+vueApp.addComponent(CmsBranchesItem);
+
 vueApp.set('cms', '#cms-container', CmsApp, function (app) {
-    app.component('cms-branches-nav', CmsBranchesNav);
-    app.component('cms-branches-items', CmsBranchesItems);
-    app.component('cms-branches-item', CmsBranchesItem);
+    //app.component('cms-branches-nav', CmsBranchesNav);
+    //app.component('cms-branches-items', CmsBranchesItems);
+    //app.component('cms-branches-item', CmsBranchesItem);
     app.use(Router);
 });
