@@ -134,8 +134,9 @@ let vueAppPrivate = {
                         appName
                     });
                 }
+
                 // $('script[src^="/webpack/common.js"]')
-                if (moduleName) {
+                if (moduleName && !self.components[moduleName]) {
                     moduleInfo = self.modules[moduleName];
                     if (!moduleInfo)
                         console.error('moduleInfo is missing for: ' + moduleName);
@@ -180,13 +181,7 @@ let vueAppPrivate = {
 }
 
 window.vueApp = {
-    addComponent: function (component) {
-        let file = component.__file;
-        let fileArr = file.split('/');
-        let moduleName = fileArr[1];
-        if (moduleName == 'modules')
-            moduleName = fileArr[2];
-
+    addComponent: function (component, moduleName) {
         let moduleComponents = vueAppPrivate.components[moduleName];
         if (!moduleComponents)
             moduleComponents = vueAppPrivate.components[moduleName] = [];

@@ -85,7 +85,7 @@ const CmsApp = {
 
                     self.branchesTrees = Vue.reactive(branchesTrees);
 
-                    var lsData = vueApp.cms.getLocalStorage();
+                    var lsData = vueApp.apps.cms.getLocalStorage();
                     self.mainBranch = self.branchesTrees.filter(function (tree) {
                         return tree.objId == lsData.mainBranchId;
                     })[0] || self.branchesTrees[0];
@@ -104,9 +104,10 @@ const CmsApp = {
     }
 }
 
-vueApp.addComponent(CmsBranchesNav);
-vueApp.addComponent(CmsBranchesItems);
-vueApp.addComponent(CmsBranchesItem);
+vueApp.addComponent(CmsBranchesNav, 'cms');
+vueApp.addComponent(CmsBranchesItems, 'cms');
+vueApp.addComponent(CmsBranchesItem, 'cms');
+
 
 vueApp.set('cms', '#cms-container', CmsApp, function (app) {
     //app.component('cms-branches-nav', CmsBranchesNav);
@@ -114,3 +115,5 @@ vueApp.set('cms', '#cms-container', CmsApp, function (app) {
     //app.component('cms-branches-item', CmsBranchesItem);
     app.use(Router);
 });
+
+vueApp.load();

@@ -35,7 +35,7 @@
         )*@
     <script>
         window.datasource = {};
-        datasource.clientPath = '@Html.GetClientFolder()';
+        datasource.clientPath = '@Url.Content($"~/webpack/{@Html.GetClientFolder()}/")';
     </script>
     <script asp-append-version="true" src="@(Html.WebpackPath("vendors.js"))"></script>
     <script asp-append-version="true" src="@(Html.WebpackPath("common.js"))"></script>
