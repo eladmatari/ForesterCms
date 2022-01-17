@@ -6,9 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\static\**" />
+    <Compile Remove="wwwroot\webpack\**" />
     <Content Remove="wwwroot\static\**" />
+    <Content Remove="wwwroot\webpack\**" />
     <EmbeddedResource Remove="wwwroot\static\**" />
+    <EmbeddedResource Remove="wwwroot\webpack\**" />
     <None Remove="wwwroot\static\**" />
+    <None Remove="wwwroot\webpack\**" />
   </ItemGroup>
 
   <ItemGroup>
