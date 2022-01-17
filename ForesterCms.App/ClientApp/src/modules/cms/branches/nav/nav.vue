@@ -10,9 +10,6 @@
             branchesTrees() {
                 return this.$root.branchesTrees;
             },
-            mainBranch() {
-                return this.$root.mainBranch;
-            }
         },
         methods: {
             onTreeBranchChange() {
@@ -30,14 +27,14 @@
 <template>
     <div>
         <div>
-            <select v-model="mainBranch" v-on:change="onTreeBranchChange()">
+            <select v-model="$root.mainBranch" v-on:change="onTreeBranchChange()">
                 <option v-for="branchesTree in branchesTrees" :key="branchesTree.objId" :value="branchesTree">
                     {{ branchesTree.name }}
                 </option>
             </select>
         </div>
         <div>
-            <cms-branches-items :branch="mainBranch" v-if="mainBranch"></cms-branches-items>
+            <cms-branches-items :branch="$root.mainBranch" v-if="$root.mainBranch"></cms-branches-items>
         </div>
     </div>
 </template>

@@ -10,7 +10,7 @@
             
         },
         created: function () {
-            debugger
+            
         }
     }
 </script>
