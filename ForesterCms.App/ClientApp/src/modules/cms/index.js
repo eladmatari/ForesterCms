@@ -4,6 +4,7 @@ import 'microns/fonts/microns.scss';
 import '../../utils/cms/head.js'
 import '../../utils/cms/app.js'
 import Router from './router.js';
+import dictionary from './dictionary';
 
 // global components
 import CmsBranchesNav from './branches/nav/nav.vue'
@@ -20,13 +21,11 @@ const CmsApp = {
             branches: [],
             branchesTrees: [],
             mainBranch: null,
-            isRtl: false
+            lang: { // TODO: get from some datasource
+                alias: 'heb',
+                isRtl: true
+            }
         }
-    },
-    computed: {
-        //isRtl: function () {
-        //    return true;
-        //}
     },
     methods: {
         getLocalStorage: function () {
@@ -98,6 +97,12 @@ const CmsApp = {
                     console.error(e);
                 }
             });
+        },
+        getLang: function (keyText) {
+            if (dictionary[keyText] && dictionary[keyText][this.lang.alias])
+                return dictionary[keyText][this.lang.alias];
+
+            return keyText;
         }
     },
     created() {

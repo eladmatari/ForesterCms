@@ -1,20 +1,13 @@
-﻿@{
-    //CmsRouter.Data.PageModel.AddScripts(
-    //    "cms/modules/branches-nav.js",
-    //    "cms/modules/_container.js"
-    //);
-}
-
-@*<div class="vac-container" v-cloak vac-module="cms">
-    <cms-branches-edit></cms-branches-edit2>
-</div>*@
-<div id="cms-container" vapp-module="cms">
-    <div v-bind:class="{ rtl: isRtl }" v-cloak>
+﻿<div id="cms-container" vapp-module="cms">
+    <div v-bind:class="{ rtl: lang.isRtl }" v-cloak>
         <header>
             <router-link class="logo" to="/ForesterCms/">
                 <img src="images/cms/logo.png" alt="cms logo" />
                 <span>Forester Cms</span>
             </router-link>
+            <button v-on:click.prevent.stop="lang.isRtl = !lang.isRtl">
+                {{ $root.getLang('Switch Direction') }}
+            </button>
         </header>
         <div class="middle">
             <nav class="branches-nav">
