@@ -20,7 +20,6 @@ filesHelper.getDirInfos(path.join(__dirname, 'src', 'modules')).forEach((dir) =>
     if (fs.existsSync(indexFilePath)) {
         moduleEntry.import.push(indexFilePath);
         entry[dir.name] = moduleEntry;
-        //console.log('file exists', indexFilePath);
     }
 });
 
@@ -57,7 +56,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    'vue-style-loader',
                     {
                         loader: 'css-loader',
                         options: {
@@ -69,7 +68,7 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    'vue-style-loader',
                     {
                         loader: 'css-loader',
                         options: {
@@ -81,7 +80,7 @@ module.exports = {
                         options: {
                             sourceMap: true,
                         }
-                    }
+                    },
                 ]
             },
             {

@@ -16,7 +16,7 @@
 </script>
 
 <template>
-    <div class="cms-branches-edit">
+    <div class="cms-branches-objects">
         Objects
     </div>
 </template>

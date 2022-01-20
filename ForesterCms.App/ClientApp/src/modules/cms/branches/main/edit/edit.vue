@@ -3,14 +3,22 @@
         name: 'cms-branches-edit',
         data() {
             return {
-                display: null,
+                display: 'add',
+                newBranch: {
+                    name: ''
+                }
             }
         },
         methods: {
-            
+            addNewBranch() {
+                var self = this;
+
+                console.log(1);
+                debugger
+            }
         },
         created: function () {
-            
+            debugger
         }
     }
 </script>
@@ -27,6 +35,9 @@
                 <button v-on:click="display = null">
                     {{ $root.getLang('Back') }}
                 </button>
+                <button v-on:click="addNewBranch()">
+                    {{ $root.getLang('Save') }}
+                </button>
             </div>
         </div>
         <div class="main">
@@ -34,7 +45,18 @@
 
             </div>
             <div v-if="display == 'add'">
-                add
+                <form novalidate>
+                    <table>
+                        <tr>
+                            <td>
+                                {{ $root.getLang('Name') }}:
+                            </td>
+                            <td>
+                                <cms-field-name :model="newBranch" :field="'name'" ref="field"></cms-field-name>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </div>
@@ -44,6 +66,12 @@
     .cms-branches-edit {
         .main {
             padding: 10px;
+        }
+
+        .top-options {
+            button + button {
+                margin-right: 10px;
+            }
         }
     }
 </style>

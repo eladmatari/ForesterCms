@@ -11,6 +11,8 @@ import CmsBranchesNav from './branches/nav/nav.vue'
 import CmsBranchesItems from './branches/nav/items.vue'
 import CmsBranchesItem from './branches/nav/item.vue'
 
+import './branches/main/fields/'
+
 //import * as Vuex from 'vuex';
 
 
