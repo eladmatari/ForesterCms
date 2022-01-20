@@ -3,7 +3,7 @@
         name: 'cms-branches-nav',
         data() {
             return {
-                
+
             }
         },
         computed: {
@@ -27,7 +27,7 @@
             }
         },
         created: function () {
-            
+
         }
     }
 </script>
@@ -48,28 +48,43 @@
     </div>
 </template>
 
-<style scoped lang="scss">
-    .nav-roots {
-        display: flex;
-
-        a {
-            display: block;
-            width: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #ccc;
-            border-right: none;
-            text-decoration: none;
-            color: transparent;
+<style lang="scss">
+    .rtl {
+        .nav {
+            .nav-roots {
+                a {
+                    
+                }
+            }
         }
+    }
 
-        &:hover {
+    .nav {
+        .nav-roots {
+            display: flex;
+
             a {
-                color: #273849;
+                display: block;
+                width: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+                border-left: none;
+                border-right: none;
+                text-decoration: none;
+                color: transparent;
+            }
 
-                &:hover {
-                    color: gray;
+
+
+            &:hover {
+                a {
+                    color: #273849;
+
+                    &:hover {
+                        color: gray;
+                    }
                 }
             }
         }

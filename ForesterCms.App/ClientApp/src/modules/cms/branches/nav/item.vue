@@ -4,7 +4,7 @@
         props: ['branch'],
         data() {
             return {
-                
+
             }
         },
         methods: {
@@ -24,7 +24,7 @@
             }
         },
         created: function () {
-            
+
         }
     }
 </script>
@@ -45,7 +45,23 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
+    .rtl {
+        .cms-branches-item {
+            .item {
+                .options {
+                    right: unset;
+                    left: 0;
+                    text-align: left;
+                }
+            }
+
+            button.cms-expand {
+                transform: none;
+            }
+        }
+    }
+
     .cms-branches-item {
         margin-bottom: 5px;
 
@@ -67,12 +83,12 @@
                 border: none;
                 position: absolute;
                 top: 0;
-                left: 0;
+                right: 0;
                 font-size: 13px;
                 opacity: 0;
                 cursor: pointer;
                 width: 20px;
-                text-align: left;
+                text-align: right;
                 text-decoration: none;
 
                 &:hover {
@@ -86,20 +102,22 @@
                 }
             }
         }
-    }
 
-    button.cms-expand {
-        background: none;
-        border: none;
-        font-size: 15px;
-        cursor: pointer;
+        button.cms-expand {
+            background: none;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
 
-        &:hover {
-            color: gray;
-        }
+            &:hover {
+                color: gray;
+            }
 
-        &.open {
-            transform: rotate(-90deg);
+            &.open {
+                transform: rotate(-90deg);
+            }
         }
     }
 </style>

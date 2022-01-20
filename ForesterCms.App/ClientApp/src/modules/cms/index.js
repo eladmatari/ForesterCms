@@ -19,13 +19,14 @@ const CmsApp = {
         return {
             branches: [],
             branchesTrees: [],
-            mainBranch: null
+            mainBranch: null,
+            isRtl: false
         }
     },
     computed: {
-        isRtl: function () {
-            return true;
-        }
+        //isRtl: function () {
+        //    return true;
+        //}
     },
     methods: {
         getLocalStorage: function () {

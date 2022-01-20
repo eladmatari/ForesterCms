@@ -17,10 +17,15 @@
 
 <template>
     <div class="cms-branches-edit">
-        Edit
+        <div class="top-options">
+            <button>
+                Add Child Branch
+            </button>
+        </div>
+        
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
     
 </style>

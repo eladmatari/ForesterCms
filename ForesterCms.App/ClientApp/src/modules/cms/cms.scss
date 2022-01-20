@@ -58,19 +58,24 @@ header {
 
 .branches-nav {
     width: 250px;
-    border-left: 1px solid #e2e2e2;
+    border-right: 1px solid #e2e2e2;
 
     select {
         width: calc(100% - 20px);
         border: 1px solid #ccc;
         font-size: 18px;
         padding: 5px 10px;
-        border-left: none;
+        border-right: none;
     }
+
     /*    ::selection {
         color: red;
         background: yellow;
     }*/
+}
+
+main {
+    width: calc(100% - 250px);
 }
 
 .rtl {
@@ -78,4 +83,20 @@ header {
         direction: rtl;
         text-align: right;
     }
+
+    .branches-nav {
+        border-right: none;
+        border-left: 1px solid #e2e2e2;
+
+        select {
+            border-right: 1px solid #ccc;
+            border-left: none;
+        }
+    }
+}
+
+.top-options {
+    height: 34px;
+    line-height: 34px;
+    padding: 0 10px;
 }
