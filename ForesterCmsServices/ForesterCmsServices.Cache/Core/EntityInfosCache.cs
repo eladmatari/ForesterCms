@@ -1,4 +1,6 @@
-﻿using ForesterCmsServices.Cache.Base;
+﻿using Common.Utils.Standard;
+using ForesterCmsServices.Cache.Base;
+using ForesterCmsServices.Logic;
 using ForesterCmsServices.Objects.Core;
 using System;
 using System.Collections.Generic;
@@ -8,27 +10,41 @@ using System.Threading.Tasks;
 
 namespace ForesterCmsServices.Cache.Core
 {
-    public class EntityInfosCache : BaseCacheList<EntityInfosCache, CmsEntityInfo>
+    public class EntityInfosCache : BaseCacheCustom<EntityInfosCache>
     {
-        private Dictionary<string, CmsEntityInfo> _aliasEntityInfos = null;
-
-        public override string EntityTypeAlias { get { return "entityinfo"; } }
-
-        protected override List<CmsEntityInfo> GetItemsAllFromDB()
+        public EntityInfosCache()
         {
-            throw new NotImplementedException();
+            SetOnRefresh(() =>
+            {
+                CmsServicesManager.Core.EntityInfosRemoveCache();
+            });
         }
 
-        protected override void OnLoaded()
+        public override string EntityTypeAlias { get { return "entity_info"; } }
+
+        public List<CmsEntityInfo> Items { get; private set; }
+        public Dictionary<int, CmsEntityInfo> ItemsByObjIdDict { get; private set; }
+        public Dictionary<string, CmsEntityInfo> ItemsByAliasDict { get; private set; }
+
+        protected override void Init()
         {
-            _aliasEntityInfos = Items.GroupBy(i => (i.Alias ?? "").Trim().ToLower()).ToDictionary(i => i.Key, i => i.First());
+            Items = CmsServicesManager.Core.GetEntityInfos();
+            ItemsByObjIdDict = Items.ToDictionary(i => i.ObjId);
+            ItemsByAliasDict = Items.ToDictionary(i => i.Alias);
+        }
+
+        public CmsEntityInfo GetItem(int id)
+        {
+            CmsEntityInfo ei;
+            ItemsByObjIdDict.TryGetValue(id, out ei);
+            return ei;
         }
 
         public CmsEntityInfo GetItem(string alias)
         {
-            CmsEntityInfo entityInfo;
-            _aliasEntityInfos.TryGetValue(alias ?? "", out entityInfo);
-            return entityInfo;
+            CmsEntityInfo ei;
+            ItemsByAliasDict.TryGetValue(alias, out ei);
+            return ei;
         }
     }
 }

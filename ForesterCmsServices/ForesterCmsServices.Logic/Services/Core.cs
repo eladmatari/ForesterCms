@@ -11,6 +11,44 @@ namespace ForesterCmsServices.Logic.Services
 {
     public class Core
     {
+        private const string EntityInfosCacheKey = "Core.GetEntityInfosCached";
+
+        public void EntityInfosRemoveCache()
+        {
+            CacheHelper.Remove(EntityInfosCacheKey);
+        }
+
+        public List<CmsEntityInfo> GetEntityInfosCached()
+        {
+            return CacheHelper.GetOrAdd(EntityInfosCacheKey, () =>
+            {
+                return GetEntityInfos();
+            }, 60 * 30, true);
+        }
+
+        public List<CmsEntityInfo> GetEntityInfos()
+        {
+            var table = DBHelper.Database.ExecuteDataTable("select * from cms_entity_info");
+
+            var results = new List<CmsEntityInfo>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var entityInfo = new CmsEntityInfo();
+
+                entityInfo.ObjId = row.Field<int>("id");
+                entityInfo.Name = row.Field<string>("name");
+                entityInfo.Alias = row.Field<string>("alias");
+                entityInfo.IsMultiLanguage = row.Field<ulong>("multilang") == 1;
+                entityInfo.Properties = row.Field<string>("properties");
+                entityInfo.IsSystem = row.Field<ulong>("system") == 1;
+
+                results.Add(entityInfo);
+            }
+
+            return results;
+        }
+
         public DisplayPage GetDisplayPage(int entityInfoId, int objId, int branchId)
         {
             throw new NotImplementedException();
@@ -39,10 +77,19 @@ namespace ForesterCmsServices.Logic.Services
             return ob;
         }
 
-        public List<CmsBranch> GetBranches()
+        private DataTable GetTable(string alias)
         {
-            var table = DBHelper.Database.ExecuteDataTable($@"SELECT 
-    b.*,
+            var ei = GetEntityInfosCached().FirstOrDefault(i => i.Alias == alias);
+            if (ei == null)
+                throw new Exception($"table \"{alias}\" wasn't found");
+
+            return GetTable(ei.ObjId, "cms_" + ei.Alias);
+        }
+
+        private DataTable GetTable(int tableId, string tableName)
+        {
+            return DBHelper.Database.ExecuteDataTable($@"SELECT 
+    t.*,
     o.eid,
 	o.name,
     o.status,
@@ -50,11 +97,30 @@ namespace ForesterCmsServices.Logic.Services
     o.updatedate,
     o.sort
 FROM
-	cms_branch b
+	{tableName} t
 	join
     cms_object o
     on
-    b.id = o.objid and b.lcid = o.lcid and o.eid = 2");
+    t.id = o.objid and t.lcid = o.lcid and o.eid = 2");
+        }
+
+        public List<CmsBranch> GetBranches()
+        {
+            var table = GetTable("branch");
+            //            var table = DBHelper.Database.ExecuteDataTable($@"SELECT 
+            //    b.*,
+            //    o.eid,
+            //	o.name,
+            //    o.status,
+            //    o.createdate,
+            //    o.updatedate,
+            //    o.sort
+            //FROM
+            //	cms_branch b
+            //	join
+            //    cms_object o
+            //    on
+            //    b.id = o.objid and b.lcid = o.lcid and o.eid = 2");
 
             var results = new List<CmsBranch>();
 

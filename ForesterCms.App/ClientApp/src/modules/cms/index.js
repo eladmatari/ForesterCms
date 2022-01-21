@@ -45,7 +45,7 @@ const CmsApp = {
         loadBranches: function (onLoaded) {
             var self = this;
 
-            app.api.get('coreapi/branches').then(function (response) {
+            app.api.get('coreapi/branches/').then(function (response) {
                 try {
 
                     self.branches = Vue.reactive(response.data);
