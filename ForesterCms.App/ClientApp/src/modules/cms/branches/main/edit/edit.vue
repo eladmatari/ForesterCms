@@ -14,11 +14,11 @@
                 var self = this;
 
                 console.log(1);
-                debugger
+                
             }
         },
         created: function () {
-            debugger
+            
         }
     }
 </script>
@@ -63,6 +63,18 @@
 </template>
 
 <style lang="scss">
+    .rtl {
+        .cms-branches-edit {
+            .top-options {
+                button + button {
+                    margin-right: 10px;
+                    margin-left: 0;
+                    
+                }
+            }
+        }
+    }
+
     .cms-branches-edit {
         .main {
             padding: 10px;
@@ -70,7 +82,7 @@
 
         .top-options {
             button + button {
-                margin-right: 10px;
+                margin-left: 10px;
             }
         }
     }

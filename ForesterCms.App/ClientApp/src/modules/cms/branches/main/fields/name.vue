@@ -9,7 +9,9 @@
         },
         methods: {
             addNewBranch() {
+                var self = this;
 
+                debugger
             }
         },
         created: function () {
@@ -26,6 +28,12 @@
 
 <style lang="scss">
     .cms-field-name {
-        
+        input {
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 0 7px;
+        }
     }
 </style>
