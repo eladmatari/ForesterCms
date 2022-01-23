@@ -1,28 +1,53 @@
 <script>
     export default {
         name: 'cms-field-name',
-        props: ['model', 'field'],
+        props: ['field'],
         data() {
             return {
                 
             }
         },
         methods: {
-            addNewBranch() {
-                var self = this;
+            validate(isBlur) {
+                var field = this.$props.field;
 
-                debugger
+                field.validate(isBlur);
             }
         },
         created: function () {
-            
+            var self = this;
+
+            var field = this.$props.field;
+            field.validate = function (isBlur) {
+                if (isBlur)
+                    field.isBlur = true;
+
+                field.error = null;
+
+                if (field.mandatory) {
+                    if (!field.value) {
+                        field.error = self.$root.getLang('Field is mandatory');
+                        return false;
+                    }
+                }
+
+                return true;
+            }
         }
     }
 </script>
 
 <template>
     <div class="cms-field cms-field-name">
-        <input type="text" maxlength="50" v-model="model[field]" />
+        <div>
+            <input type="text" maxlength="50" 
+                   v-model.trim="field.value"
+                   v-on:blur="validate(true)"
+                   v-on:keyup="validate()"/>
+        </div>
+        <div class="error" v-if="field.error && field.isBlur">
+            {{ field.error }}
+        </div>
     </div>
 </template>
 

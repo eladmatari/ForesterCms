@@ -10,7 +10,6 @@ namespace ForesterCmsServices.Objects.Core
     {
         public string Alias { get; set; }
         public int? ParentId { get; set; }
-        public string TreeAlias { get; set; }
         public bool IsSystem { get; set; }
     }
 }

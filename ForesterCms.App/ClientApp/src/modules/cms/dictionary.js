@@ -14,4 +14,10 @@
     'Save': {
         heb: 'שמירה'
     },
+    'Alias': {
+        heb: 'כינוי'
+    },
+    'Field is mandatory': {
+        heb: 'שדה חובה'
+    }
 }

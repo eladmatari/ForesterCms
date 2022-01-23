@@ -1,20 +1,36 @@
 <script>
+    import { prepareFieldsForm } from '../fields/fields-helper';
+
     export default {
         name: 'cms-branches-edit',
         data() {
             return {
                 display: 'add',
-                newBranch: {
-                    name: ''
-                }
+                addNewBranchOptions: prepareFieldsForm({
+                    fields: [
+                        {
+                            name: 'Name',
+                            alias: 'name',
+                            type: 'name',
+                            mandatory: true
+                        },
+                        {
+                            name: 'Alias',
+                            alias: 'alias',
+                            type: 'name'
+                        }
+                    ]
+                })
             }
         },
         methods: {
             addNewBranch() {
                 var self = this;
 
-                console.log(1);
-                
+                self.addNewBranchOptions.validate();
+                self.addNewBranchOptions.getModel((model) => {
+                    console.log(model);
+                });
             }
         },
         created: function () {
@@ -45,18 +61,7 @@
 
             </div>
             <div v-if="display == 'add'">
-                <form novalidate>
-                    <table>
-                        <tr>
-                            <td>
-                                {{ $root.getLang('Name') }}:
-                            </td>
-                            <td>
-                                <cms-field-name :model="newBranch" :field="'name'" ref="field"></cms-field-name>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                <cms-fields-form :options="addNewBranchOptions"></cms-fields-form>
             </div>
         </div>
     </div>

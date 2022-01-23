@@ -234,7 +234,7 @@ namespace ForesterCmsServices.UI.Routing
 
             if (entityInfoId > 0 && objId > 0)
             {
-                if (branch.TreeAlias == "Tools")
+                if (branch.ParentId == null && branch.Alias == "data")
                 {
                     var displayPage = CmsServicesManager.Core.GetDisplayPage(entityInfoId, objId, branchId);
                     var routeParams = RouterData.GetRouteParams(displayPage.View);
