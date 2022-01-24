@@ -43,11 +43,6 @@ namespace ForesterCms.App
             else
                 services.AddControllersWithViews().AddNewtonsoftJson();
 
-            //services.AddControllersWithViews().AddRazorRuntimeCompilation().AddNewtonsoftJson((options) =>
-            //{
-            //    options.
-            //    });
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<Router>();
 
