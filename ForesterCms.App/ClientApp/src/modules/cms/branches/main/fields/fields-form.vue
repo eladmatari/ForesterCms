@@ -12,12 +12,14 @@
 
         },
         created: function () {
-            var self = this;
+            let self = this;
 
             self.$props.options.validate =() => {
-                var isValid = self.options.fields.some((field) => {
-                    return field.validate(true);
-                });
+                let isValid = !self.options.fields.filter((field) => {
+                    return !field.validate(true);
+                }).length;
+
+                return isValid;
             }
         }
     }

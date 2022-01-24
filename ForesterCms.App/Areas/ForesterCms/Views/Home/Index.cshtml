@@ -1,4 +1,11 @@
-﻿<div id="cms-container" vapp-module="cms">
+﻿@using ForesterCmsServices.Cache
+@{
+    var branches = CacheManager.Branches.Items;
+
+    CmsRouter.Data.PageModel.ClientData.Add("branches", branches);
+}
+
+<div id="cms-container" vapp-module="cms">
     <div v-bind:class="{ rtl: lang.isRtl }" v-cloak>
         <header>
             <router-link class="logo" to="/ForesterCms/">

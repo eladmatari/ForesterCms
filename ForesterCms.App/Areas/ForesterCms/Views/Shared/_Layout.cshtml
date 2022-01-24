@@ -19,11 +19,11 @@
 </head>
 <body>
     @RenderBody()
-@*    @CmsRouter.Data.PageModel.GetClientDataScript()*@
     <script>
         window.datasource = {};
         datasource.clientPath = '@Url.Content($"~/webpack/{@Html.GetClientFolder()}/")';
     </script>
+    @CmsRouter.Data.PageModel.GetClientDataScript()
     <script asp-append-version="true" src="@(Html.WebpackPath("vendors.js"))"></script>
     <script asp-append-version="true" src="@(Html.WebpackPath("common.js"))"></script>
     <script asp-append-version="true" src="@(Html.WebpackPath("cms.js"))"></script>

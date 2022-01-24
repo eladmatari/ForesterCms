@@ -17,7 +17,8 @@
                         {
                             name: 'Alias',
                             alias: 'alias',
-                            type: 'name'
+                            type: 'name',
+                            mandatory: true
                         }
                     ]
                 })
@@ -27,9 +28,14 @@
             addNewBranch() {
                 var self = this;
 
-                self.addNewBranchOptions.validate();
+                let isValid = self.addNewBranchOptions.validate();
+                if (!isValid)
+                    return;
+
                 self.addNewBranchOptions.getModel((model) => {
-                    console.log(model);
+                    app.api.postCms('coreapi/addnewbranch/', null, model).then(function (response) {
+                        console.log(response.data);
+                    })
                 });
             }
         },

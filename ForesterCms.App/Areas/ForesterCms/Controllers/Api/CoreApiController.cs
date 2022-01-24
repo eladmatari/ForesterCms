@@ -1,4 +1,5 @@
 ﻿using ForesterCmsServices.Cache;
+using ForesterCmsServices.Objects.Core;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace ForesterCms.App.Areas.ForesterCms.Controllers.Api
             var branches = CacheManager.Branches.Items;
 
             return Json(branches);
+        }
+
+        [HttpPost]
+        public IActionResult AddNewBranch([FromBody] CmsBranch branch)
+        {
+            return Json(branch);
         }
     }
 }
