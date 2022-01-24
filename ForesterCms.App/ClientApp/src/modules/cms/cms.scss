@@ -98,3 +98,39 @@ main {
     line-height: 34px;
     padding: 0 10px;
 }
+
+button {
+    background: #dddddd;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #cdcdcd;
+}
+
+#loader {
+    z-index: 130;
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(255, 255, 255, 0.4);
+
+    &:before {
+        content: " ";
+        width: 124px;
+        height: 124px;
+        z-index: 200;
+        position: absolute;
+        top: 240px;
+        left: calc(50% - 62px);
+        background: url(./images/loader.gif) no-repeat 0 0;
+        background-size: 100%;
+    }
+}
+

@@ -21,11 +21,14 @@ namespace Common.Utils.Standard
             Connection.Close();
         }
 
-        public DataTable ExecuteDataTable(string query, Action<MySqlCommand> setCommand = null)
+        public DataTable ExecuteDataTable(string query, Action<MySqlCommand> setCommand = null, MySqlTransaction trns = null)
         {
             using (var cmd = Connection.CreateCommand())
             {
                 cmd.CommandText = query;
+                if (trns != null)
+                    cmd.Transaction = trns;
+
                 setCommand?.Invoke(cmd);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -59,16 +62,16 @@ namespace Common.Utils.Standard
             }
         }
 
-        public void ExecuteNonQuery(string query, Action<MySqlCommand> setCommand = null)
+        public void ExecuteNonQuery(string query, Action<MySqlCommand> setCommand = null, MySqlTransaction trns = null)
         {
-            ExecuteDataTable(query, setCommand);
+            ExecuteDataTable(query, setCommand, trns);
         }
 
-        public object ExecuteScalar(string query, Action<MySqlCommand> setCommand = null)
+        public object ExecuteScalar(string query, Action<MySqlCommand> setCommand = null, MySqlTransaction trns = null)
         {
-            var dt = ExecuteDataTable(query, setCommand);
+            var dt = ExecuteDataTable(query, setCommand, trns);
 
-            if (dt.Rows.Count > 0)
+            if (dt?.Rows.Count > 0)
                 return dt.Rows[0][0];
 
             return null;

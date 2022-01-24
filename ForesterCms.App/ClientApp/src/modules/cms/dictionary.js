@@ -19,5 +19,8 @@
     },
     'Field is mandatory': {
         heb: 'שדה חובה'
+    },
+    'Add new branch': {
+        heb: 'הוספת ענף חדש'
     }
 }

@@ -54,7 +54,7 @@ namespace ForesterCmsServices.Cache.Base
             }
         }
 
-        public static void Refresh()
+        public void Refresh()
         {
             CacheHelper.m_primitivesCache.Remove(entityTypeAlias);
             Logger.Debug("cache refreshed: " + entityTypeAlias);

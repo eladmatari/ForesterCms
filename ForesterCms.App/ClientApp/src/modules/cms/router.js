@@ -17,4 +17,17 @@ const router = VueRouter.createRouter({
     routes,
 })
 
+router.afterEach((to, from, failure) => {
+    datasource.queryString = app.api.parseQueryString();
+
+    if (datasource.queryString.b) {
+        vueApp.apps.cms.currentBranch = vueApp.apps.cms.branches.filter((branch) => {
+            return datasource.queryString.b == branch.objId;
+        })[0] || null;
+    }
+    else {
+        vueApp.apps.cms.currentBranch = null;
+    }
+})
+
 export default router;

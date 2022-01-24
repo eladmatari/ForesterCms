@@ -24,6 +24,7 @@ const CmsApp = {
             branches: [],
             branchesTrees: [],
             mainBranch: null,
+            currentBranch: null,
             lang: { // TODO: get from some datasource
                 alias: 'heb',
                 isRtl: true

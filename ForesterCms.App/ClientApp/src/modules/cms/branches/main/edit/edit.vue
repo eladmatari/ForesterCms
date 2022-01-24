@@ -1,30 +1,39 @@
-<script>
+﻿<script>
     import { prepareFieldsForm } from '../fields/fields-helper';
+
+    var branchFields = [
+        {
+            name: 'Name',
+            alias: 'name',
+            type: 'name',
+            mandatory: true
+        },
+        {
+            name: 'Alias',
+            alias: 'alias',
+            type: 'name',
+            mandatory: true
+        }
+    ]
+
 
     export default {
         name: 'cms-branches-edit',
         data() {
             return {
-                display: 'add',
-                addNewBranchOptions: prepareFieldsForm({
-                    fields: [
-                        {
-                            name: 'Name',
-                            alias: 'name',
-                            type: 'name',
-                            mandatory: true
-                        },
-                        {
-                            name: 'Alias',
-                            alias: 'alias',
-                            type: 'name',
-                            mandatory: true
-                        }
-                    ]
-                })
+                display: null,
+                addNewBranchOptions: null,
             }
         },
         methods: {
+            showAddNewBranch() {
+
+                this.addNewBranchOptions = Vue.reactive(prepareFieldsForm({
+                    fields: branchFields
+                }));
+
+                this.display = 'add';
+            },
             addNewBranch() {
                 var self = this;
 
@@ -32,15 +41,22 @@
                 if (!isValid)
                     return;
 
-                self.addNewBranchOptions.getModel((model) => {
-                    app.api.postCms('coreapi/addnewbranch/', null, model).then(function (response) {
-                        console.log(response.data);
-                    })
-                });
+                var model = self.addNewBranchOptions.model;
+                model.parentId = self.$root.currentBranch.objId;
+                model.lcid = self.$root.currentBranch.lcid;
+                model.entityInfoId = self.$root.currentBranch.entityInfoId;
+
+                app.showLoader();
+
+                app.api.postCms('coreapi/addorupdatebranch/', null, model).then(function (response) {
+                    app.hideLoader();
+                    console.log(response.data);
+                })
+
             }
         },
         created: function () {
-            
+            this.showAddNewBranch();
         }
     }
 </script>
@@ -49,7 +65,7 @@
     <div class="cms-branches-edit">
         <div class="top-options">
             <div v-if="!display">
-                <button v-on:click="display = 'add'">
+                <button v-on:click="showAddNewBranch()">
                     {{ $root.getLang('Add New Branch') }}
                 </button>
             </div>
@@ -67,6 +83,9 @@
 
             </div>
             <div v-if="display == 'add'">
+                <h3>
+                    {{ $root.getLang('Add new branch') }}
+                </h3>
                 <cms-fields-form :options="addNewBranchOptions"></cms-fields-form>
             </div>
         </div>
@@ -80,7 +99,6 @@
                 button + button {
                     margin-right: 10px;
                     margin-left: 0;
-                    
                 }
             }
         }

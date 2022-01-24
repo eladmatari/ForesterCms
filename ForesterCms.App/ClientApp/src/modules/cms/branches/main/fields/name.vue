@@ -1,10 +1,10 @@
 <script>
     export default {
         name: 'cms-field-name',
-        props: ['field'],
+        props: ['field', 'model'],
         data() {
             return {
-                
+
             }
         },
         methods: {
@@ -17,6 +17,7 @@
         created: function () {
             var self = this;
 
+            var model = this.$props.model;
             var field = this.$props.field;
             field.validate = function (isBlur) {
                 if (isBlur)
@@ -25,7 +26,7 @@
                 field.error = null;
 
                 if (field.mandatory) {
-                    if (!field.value) {
+                    if (!model[field.alias]) {
                         field.error = self.$root.getLang('Field is mandatory');
                         return false;
                     }
@@ -40,10 +41,10 @@
 <template>
     <div class="cms-field cms-field-name">
         <div>
-            <input type="text" maxlength="50" 
-                   v-model.trim="field.value"
+            <input type="text" maxlength="50"
+                   v-model.trim="model[field.alias]"
                    v-on:blur="validate(true)"
-                   v-on:keyup="validate()"/>
+                   v-on:keyup="validate()" />
         </div>
         <div class="error" v-if="field.error && field.isBlur">
             {{ field.error }}
@@ -52,6 +53,15 @@
 </template>
 
 <style lang="scss">
+    .rtl {
+        .cms-field-name {
+            .error {
+                margin-left: 0;
+                margin-right: 10px;
+            }
+        }
+    }
+
     .cms-field-name {
         input {
             height: 30px;
@@ -59,6 +69,13 @@
             border: 1px solid gray;
             border-radius: 5px;
             padding: 0 7px;
+        }
+
+        display: flex;
+        align-items: center;
+
+        .error {
+            margin-left: 10px;
         }
     }
 </style>

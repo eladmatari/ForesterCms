@@ -31,6 +31,7 @@ namespace ForesterCmsServices.Objects.Core
         public DateTime CreateDate { set; get; }
         public int BranchId { get; set; }
         public int? Sort { get; set; }
+        public int Status { get; set; }
         public MetaObject Meta { get; set; }
 
         public class MetaObject
@@ -58,6 +59,9 @@ namespace ForesterCmsServices.Objects.Core
 
             if (row.Table.Columns.Contains("sort"))
                 Sort = row.Field<int?>("sort");
+
+            if (row.Table.Columns.Contains("status"))
+                Status = row.Field<sbyte>("status");
         }
     }
 
