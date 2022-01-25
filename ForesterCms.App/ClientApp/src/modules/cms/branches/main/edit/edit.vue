@@ -64,6 +64,9 @@
 <template>
     <div class="cms-branches-edit">
         <div class="top-options">
+            <h1>
+                {{ $root.currentBranch.objId }}: {{ $root.currentBranch.name }}
+            </h1>
             <div v-if="!display">
                 <button v-on:click="showAddNewBranch()">
                     {{ $root.getLang('Add New Branch') }}
@@ -96,6 +99,11 @@
     .rtl {
         .cms-branches-edit {
             .top-options {
+                h1 {
+                   /* margin-right: 0;
+                    margin-left: 10px;*/
+                }
+
                 button + button {
                     margin-right: 10px;
                     margin-left: 0;
@@ -110,6 +118,15 @@
         }
 
         .top-options {
+            display: flex;
+            justify-content: space-between;
+
+            h1 {
+                font-size: 20px;
+                margin: 0;
+                /*margin-right: 10px;*/
+            }
+
             button + button {
                 margin-left: 10px;
             }
