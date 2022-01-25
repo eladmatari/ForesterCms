@@ -56,7 +56,7 @@
             }
         },
         created: function () {
-            this.showAddNewBranch();
+            //this.showAddNewBranch();
         }
     }
 </script>

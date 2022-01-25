@@ -55,16 +55,102 @@ VALUES (@objid, @eid, @lcid, @bid, @name, @status, CURDATE(), CURDATE(), @sort);
         cmd.Parameters.AddWithValue("@bid", entity.BranchId);
         cmd.Parameters.AddWithValue("@name", entity.Name);
         cmd.Parameters.AddWithValue("@status", entity.Status);
-        cmd.Parameters.AddWithValue("@sort", entity.Sort);
+        cmd.Parameters.AddWithValue("@sort", entity.Sort > 0 ? entity.Sort : 999);
     },
     trns);
             }
             else
             {
-
+                DBHelper.Database.ExecuteScalar(
+    @"update `cms_object` 
+set
+    `name` = @name,
+    `status` = @status,
+    `updatedate` = CURDATE(),
+    `sort` = @sort
+where
+    `objid` = @objid
+    and
+    `eid` = @eid
+    and
+    `lcid` = @lcid
+    and
+    `bid` = @bid
+",
+    (cmd) =>
+    {
+        cmd.Parameters.AddWithValue("@objid", entity.ObjId);
+        cmd.Parameters.AddWithValue("@eid", entity.EntityInfoId);
+        cmd.Parameters.AddWithValue("@lcid", entity.LCID);
+        cmd.Parameters.AddWithValue("@bid", entity.BranchId);
+        cmd.Parameters.AddWithValue("@name", entity.Name);
+        cmd.Parameters.AddWithValue("@status", entity.Status);
+        cmd.Parameters.AddWithValue("@sort", entity.Sort > 0 ? entity.Sort : 999);
+    },
+    trns);
             }
+        }
 
+        public void FixBranchesSort(int? parentId, MySqlTransaction trns)
+        {
+            var branchesTable = DBHelper.Database.ExecuteDataTable($@"SELECT 
+    `id`,
+    `eid`,
+    `lcid`,
+    `sort`
+FROM
+	`cms_vw_branch`
+where
+    ((parentId = @parentId) or (parentId is null and @parentId is null))
+order by
+    `sort`
+", (cmd) =>
+            {
+                cmd.Parameters.AddWithValue("@parentId", parentId);
+            });
 
+            for (int i = 1; i <= branchesTable.Rows.Count; i++)
+            {
+                var row = branchesTable.Rows[i - 1];
+
+                DBHelper.Database.ExecuteNonQuery($@"
+update
+    cms_object
+set
+    `sort` = @sort
+where
+    `objid` = @objid
+    and
+    `eid` = @eid
+    and
+    `lcid` = @lcid
+", (cmd) =>
+                {
+                    cmd.Parameters.AddWithValue("@sort", i);
+                    cmd.Parameters.AddWithValue("@objid", row.Field<int>("id"));
+                    cmd.Parameters.AddWithValue("@eid", row.Field<int>("eid"));
+                    cmd.Parameters.AddWithValue("@lcid", row.Field<int>("lcid"));
+                }, trns);
+            }
+        }
+
+        public void FixBranchesSort(int? parentId)
+        {
+            using (var trns = DBHelper.Database.Connection.BeginTransaction())
+            {
+                try
+                {
+                    FixBranchesSort(parentId, trns);
+
+                    trns.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    trns.Rollback();
+                    throw;
+                }
+            }
         }
 
         public CmsBranch AddOrUpdateBranch(CmsBranch branch)
@@ -85,6 +171,8 @@ SELECT LAST_INSERT_ID() as 'id';",
         cmd.Parameters.AddWithValue("@parentId", branch.ParentId);
     },
     trns));
+                        AddOrUpdateObjectData(branch, trns);
+                        FixBranchesSort(branch.ParentId, trns);
                     }
                     else
                     {
@@ -106,9 +194,11 @@ SELECT LAST_INSERT_ID() as 'id';",
         cmd.Parameters.AddWithValue("@objId", branch.ObjId);
     },
     trns);
+
+                        AddOrUpdateObjectData(branch, trns);
                     }
 
-                    AddOrUpdateObjectData(branch, trns);
+
 
                     trns.Commit();
                 }
@@ -174,50 +264,13 @@ SELECT LAST_INSERT_ID() as 'id';",
             return ob;
         }
 
-        private DataTable GetTable(string alias)
-        {
-            var ei = GetEntityInfosCached().FirstOrDefault(i => i.Alias == alias);
-            if (ei == null)
-                throw new Exception($"table \"{alias}\" wasn't found");
-
-            return GetTable(ei.ObjId, "cms_" + ei.Alias);
-        }
-
-        private DataTable GetTable(int tableId, string tableName)
-        {
-            return DBHelper.Database.ExecuteDataTable($@"SELECT 
-    t.*,
-    o.eid,
-	o.name,
-    o.status,
-    o.createdate,
-    o.updatedate,
-    o.sort
-FROM
-	{tableName} t
-	join
-    cms_object o
-    on
-    t.id = o.objid and t.lcid = o.lcid and o.eid = 2");
-        }
-
         public List<CmsBranch> GetBranches()
         {
-            var table = GetTable("branch");
-            //            var table = DBHelper.Database.ExecuteDataTable($@"SELECT 
-            //    b.*,
-            //    o.eid,
-            //	o.name,
-            //    o.status,
-            //    o.createdate,
-            //    o.updatedate,
-            //    o.sort
-            //FROM
-            //	cms_branch b
-            //	join
-            //    cms_object o
-            //    on
-            //    b.id = o.objid and b.lcid = o.lcid and o.eid = 2");
+            var table = DBHelper.Database.ExecuteDataTable($@"SELECT 
+    *
+FROM
+	cms_vw_branch
+");
 
             var results = new List<CmsBranch>();
 
