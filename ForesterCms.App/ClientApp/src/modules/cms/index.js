@@ -99,6 +99,9 @@ const CmsApp = {
                 return dictionary[keyText][this.lang.alias];
 
             return keyText;
+        },
+        refreshBranches() {
+
         }
     },
     created() {
