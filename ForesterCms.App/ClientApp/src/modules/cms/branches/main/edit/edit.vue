@@ -83,9 +83,9 @@
         created: function () {
             var self = this;
             self.showEditBranch();
-            $('body').on('branchChange', function () {
-                self.showEditBranch();
-            });
+            //$('body').on('branchChange', function () {
+            //    self.showEditBranch();
+            //});
         }
     }
 </script>

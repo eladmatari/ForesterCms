@@ -28,8 +28,6 @@ router.afterEach((to, from, failure) => {
     else {
         vueApp.apps.cms.currentBranch = null;
     }
-
-    $('body').trigger('branchChange');
 })
 
 export default router;
